@@ -12,23 +12,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
-import com.study.model.User;
-import com.study.service.UserService;
+import com.study.model.Role;
+import com.study.model.URole;
+import com.study.service.RoleService;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+public class RoleController {
 	
 	@Resource
-	private UserService userService;
+	private RoleService roleService;
 	
 	@ResponseBody
 	@RequestMapping("/userList.do")
-	public Map<String,Object> userList(User user,String draw, 
+	public Map<String,Object> userList(Role role,String draw, 
 			@RequestParam(required = false, defaultValue = "1") int start,
             @RequestParam(required = false, defaultValue = "10") int length){
 		Map<String,Object> map = new HashMap<>();
-		PageInfo<User> pageInfo = userService.selectByPage(user, start, length);
+		PageInfo<Role> pageInfo = roleService.selectByPage(role, start, length);
 		System.out.println("pageInfo.getTotal():"+pageInfo.getTotal());
         map.put("draw",draw);
         map.put("recordsTotal",pageInfo.getTotal());
@@ -36,7 +36,16 @@ public class UserController {
         map.put("data", pageInfo.getList());
 		return map;
 	}
-
 	
+	/**
+	 * 查询角色列表，并且返回指定用户是否拥有该角色
+	 * @param uid 用户id
+	 * @return
+	 */
+	@RequestMapping("/roleListWithUser.do")
+	public List<URole> roleListWithUser(Integer uid){
+		List<URole> list = roleService.queryRoleListWithUser(uid);
+		return list;
+	}
 	
 }

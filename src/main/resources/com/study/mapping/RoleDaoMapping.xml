@@ -16,4 +16,10 @@
 		ON rr.resourcesId = re.id
 	</select>
 	
+	<select id="queryRoleListWithUser" parameterType="int" resultType="com.study.model.URole">
+		SELECT r.id,r.roleDesc,r.roleKey,
+		(CASE WHEN (SELECT ur.roleId FROM t_user_role ur WHERE ur.userId= #{id} AND ur.roleId = r.id) THEN 1 ELSE 0 END) AS selected 
+		FROM t_role r 
+	</select>
+	
 </mapper> 

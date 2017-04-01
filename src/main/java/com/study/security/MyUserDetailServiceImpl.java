@@ -37,7 +37,7 @@ public class MyUserDetailServiceImpl implements UserDetailsService{
 		}
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), 
 				user.getPassword(), 
-				Boolean.valueOf(user.getEnable()), 
+				user.getEnable()==1?true:false, 
 				true, 
 				true,
 				true,

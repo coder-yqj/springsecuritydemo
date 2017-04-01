@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web)throws Exception {
 		// 设置不拦截规则
-//			web.ignoring().antMatchers("/css/**","/js/**","/img/**","/font-awesome/**");
+		//web.ignoring().antMatchers("/css/**","/js/**","/img/**","/font-awesome/**");
 	}
 	
 	@Override
@@ -49,7 +49,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  http
 	        .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)//在正确的位置添加我们自定义的过滤器  
 	        .authorizeRequests()
-	         .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
+	        .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
 	        .anyRequest().authenticated();
 //	       .and().formLogin().and()
 //	        .httpBasic();

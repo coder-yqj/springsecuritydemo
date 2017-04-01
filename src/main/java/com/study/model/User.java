@@ -6,7 +6,7 @@ public class User {
 	private Integer id;
 	private String username;
 	private String password;
-	private String enable;
+	private Integer enable;
 	
 	private Set<Role> roles;
 	
@@ -28,10 +28,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getEnable() {
+	
+	public Integer getEnable() {
 		return enable;
 	}
-	public void setEnable(String enable) {
+	public void setEnable(Integer enable) {
 		this.enable = enable;
 	}
 	public Set<Role> getRoles() {

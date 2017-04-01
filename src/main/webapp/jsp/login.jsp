@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'login.jsp' starting page</title>
+    <title>My JSP 'login.jsp' starting page </title>
     
  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,11 +21,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
     <body>
-        <div id="loginbox">            
+        <div id="loginbox">   
             <form id="loginform" class="form-vertical" action="${ss }/spring_security_check" method="post">
 <%--				<input type="hidden" name="_csrf" value="">--%>
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />  
-				<div class="control-group normal_text"> <h3><img src="img/logo.png" alt="Logo" /></h3></div>
+				<div class="control-group normal_text"> <h3><img src="${ss }/img/logo.png" alt="Logo" /></h3></div>
                 <div class="control-group">
                     <div class="controls">
                         <div class="main_input_box">
@@ -50,7 +50,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
                     <div class="controls">
                         <div class="main_input_box">
-                            <span class="add-on bg_lo"><i class="icon-envelope"></i></span><input type="text" placeholder="E-mail address" />
+                            <span class="add-on bg_lo"><i class="icon-envelope"></i></	span><input type="text" placeholder="E-mail address" />
                         </div>
                     </div>
                
