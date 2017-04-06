@@ -16,12 +16,15 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.github.pagehelper.PageHelper;
 
 @Configuration
 //加载资源文件
 @PropertySource({"classpath:jdbc.properties"})
+//启用注解事务管理，使用CGLib代理
+@EnableTransactionManagement(proxyTargetClass = true)
 public class DataSourceConfig {
 	private static final Logger logger = Logger.getLogger(DataSourceConfig.class);
 	/*

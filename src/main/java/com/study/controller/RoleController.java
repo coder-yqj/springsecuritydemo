@@ -17,6 +17,7 @@ import com.study.model.URole;
 import com.study.service.RoleService;
 
 @Controller
+@RequestMapping("/role")
 public class RoleController {
 	
 	@Resource
@@ -42,6 +43,7 @@ public class RoleController {
 	 * @param uid 用户id
 	 * @return
 	 */
+	@ResponseBody
 	@RequestMapping("/roleListWithUser.do")
 	public List<URole> roleListWithUser(Integer uid){
 		List<URole> list = roleService.queryRoleListWithUser(uid);

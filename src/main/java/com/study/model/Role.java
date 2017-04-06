@@ -1,8 +1,13 @@
 package com.study.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Role {
+public class Role implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2322564038632517975L;
 	private Integer id;
 	private String roleKey;
 	private String roleDesc;

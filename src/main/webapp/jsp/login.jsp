@@ -60,7 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 </div>
             </form>
         </div>
-        <script type="text/javascript" src="${ss }/js/jquery.min.js"></script>
+        <script type="text/javascript" src="${ss }/js/jquery-1.11.2.min.js"></script>
         <script type="text/javascript" src="${ss }/js/matrix.login.js"></script>
     </body>
 </html>

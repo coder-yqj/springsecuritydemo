@@ -10,11 +10,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'index.jsp' starting page</title>
+    <title>用户管理</title>
     
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <%--<link rel="stylesheet" href="${ss }/css/uniform.css" />--%>
-<!-- <link rel="stylesheet" href="${ss }/css/jquery.dataTables.min.css" /> -->
+ <link rel="stylesheet" href="${ss }/css/jquery.dataTables.min.css" /> 
 <%--<link rel="stylesheet" href="${ss }/css/select2.css" />--%>
 <link rel="stylesheet" href="${ss }/css/matrix-style.css" />
 <link rel="stylesheet" href="${ss }/css/matrix-media.css" />
@@ -92,16 +92,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="selectRoleLabel">添加角色</h4>
+			        <h4 class="modal-title" id="selectRoleLabel">分配角色</h4>
 			      </div>
 			      <div class="modal-body">
-			        <form id="boxRoleForm">
-			          loading...
+			        <form id="boxRoleForm" >
+			          <%--<div class='checkbox'>
+			          	<label><input type='checkbox' id=''/>First One</label>
+			          </div>
+			        --%>
 			        </form>
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" onclick="selectRole();" class="btn btn-primary">Save</button>
+			        <button type="button" onclick="saveUserRoles();" class="btn btn-primary">Save</button>
 			      </div>
 			    </div>
 			  </div>
@@ -122,6 +125,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="${ss }/js/jquery.dataTables.min.js"></script> 
 <%--	<script src="${ss }/js/matrix.js"></script> --%>
 	<script type="text/javascript">
+	//_csrf参数设置
+  	var header = $("meta[name='_csrf_header']").attr("content");  
+     var token = $("meta[name='_csrf']").attr("content");  
 	$(document).ready(function() {
 			$('#datatable').DataTable( {
 				"dom": '<"top"i>rt<"bottom"flp><"clear">',
@@ -134,8 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	  ajax : function(data, callback, settings) {  
                 //封装请求参数  
                 var param = getQueryCondition(data);  
-                var header = $("meta[name='_csrf_header']").attr("content");  
-                var token = $("meta[name='_csrf']").attr("content");  
+             
                 $.ajax({  
                         type: "POST",  
                         url: '${ss}/user/userList.do',
@@ -205,7 +210,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			});
 			
 	} );
-	
+	//封装查询参数
 	function getQueryCondition(data){
 		   var param = {};  
            //组装排序参数  
@@ -213,34 +218,58 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
            //param.name = $("#name-search").val();//查询条件  
            //param.status = $("#status-search").val();//查询条件  
            //组装分页参数  
-           param.startIndex = data.start;  
-           param.pageSize = data.length;  
+           param.start = data.start;  
+           param.length = data.length;  
            param.draw = data.draw;  
            return param;  
 	}
-	
+	//弹出选择角色的框
 	function allotRole(id){
 		$.ajax({
 			async:false,
 			type : "POST",
-			data:{id:id},
-			url: "${ss}/role/roleListWithUser.do",
+			data:{uid:id},
+			url: '${ss}/role/roleListWithUser.do',
 			dataType:'json',
 			beforeSend: function(xhr){  
                 xhr.setRequestHeader(header, token);  
             },
 			success: function(data){
-				if(data=="success"){
-					alert("删除成功");
-				}else{
-					alert("删除失败");
+				$("#boxRoleForm").empty();
+				var htm = "<input type='hidden' name='userId' value='"+id+"'>";
+				for(var i=0;i<data.length;i++){
+					htm += "<div class='checkbox'><label><input type='checkbox' name='roleId' value='"+data[i].id+"'";
+					if(data[i].selected==1){
+						htm += " checked='checked'";
+					}
+					htm +="/>"+data[i].roleDesc+"</label></div>";
 				}
-		      			
+				$("#boxRoleForm").append(htm);		      			
 			  }
 		});   
 		
 		$('#selectRole').modal();
 	}
+	
+	//保存角色的选择
+	function saveUserRoles() {
+		
+		$.ajax({
+			cache: true,
+			type: "POST",
+			url:'${ss}/user/saveUserRoles.do',
+			data:$('#boxRoleForm').serialize(),// 你的formid
+			async: false,
+			dataType:"json",
+			beforeSend: function(xhr){  
+                xhr.setRequestHeader(header, token);  
+            },
+		    success: function(data) {
+			    alert(data);
+		    }
+		})
+	}
+	
 	
 	</script>
 

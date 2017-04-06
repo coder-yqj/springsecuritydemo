@@ -7,12 +7,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.User;
+import com.study.model.UserRole;
 import com.study.service.UserService;
 
 @Controller
@@ -21,7 +23,14 @@ public class UserController {
 	
 	@Resource
 	private UserService userService;
-	
+	/**
+	 * 获取用户列表
+	 * @param user 用户对象
+	 * @param draw dataTables特有参数，原样返回即可
+	 * @param start 起始数据
+	 * @param length 每页的长度
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/userList.do")
 	public Map<String,Object> userList(User user,String draw, 
@@ -35,6 +44,26 @@ public class UserController {
         map.put("recordsFiltered",pageInfo.getTotal());
         map.put("data", pageInfo.getList());
 		return map;
+	}
+	
+	/**
+	 * 保存用户角色 
+	 * @param userRole 用户角色
+	 *  	  此处获取的参数的角色id是以 “,” 分隔的字符串
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveUserRoles")
+	public String saveUserRoles(UserRole userRole){
+		if(StringUtils.isEmpty(userRole.getUserId()))
+		return "error";
+		try {
+			userService.saveUserRoles(userRole);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 
 	

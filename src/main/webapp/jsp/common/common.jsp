@@ -4,4 +4,3 @@
 <c:set var="ss" value="${pageContext.request.contextPath}" />
 
 <link rel="stylesheet" href="${ss }/css/bootstrap.min.css" />
-<link rel="stylesheet" href="${ss }/css/bootstrap-responsive.min.css" />

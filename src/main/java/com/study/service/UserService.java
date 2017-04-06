@@ -1,9 +1,8 @@
 package com.study.service;
 
-import java.util.List;
-
 import com.github.pagehelper.PageInfo;
 import com.study.model.User;
+import com.study.model.UserRole;
 
 public interface UserService {
 
@@ -18,4 +17,6 @@ public interface UserService {
      * @return
      */
     public PageInfo<User> selectByPage(User user, int page, int rows);
+    
+	public void saveUserRoles(UserRole userRole);
 }

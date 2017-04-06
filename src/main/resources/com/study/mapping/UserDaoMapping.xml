@@ -21,5 +21,12 @@
 	<select id="queryAll" parameterType="com.study.model.User" resultType="com.study.model.User">
 		SELECT id,username,enable FROM t_user
 	</select>
-
+	
+	<delete id="delRolesByUserId" parameterType="string">
+		DELETE FROM t_user_role WHERE userId = #{userId}
+	</delete>
+	
+	<insert id="addUserRole" parameterType="com.study.model.UserRole">
+		INSERT INTO t_user_role(userId,roleId) VALUES (#{userId},#{roleId});
+	</insert>
 </mapper> 

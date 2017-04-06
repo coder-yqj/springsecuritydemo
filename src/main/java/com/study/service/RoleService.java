@@ -20,4 +20,5 @@ public interface RoleService {
 	 */
 	public List<URole> queryRoleListWithUser(Integer id);
 	
+	
 }

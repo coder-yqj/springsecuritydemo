@@ -11,6 +11,11 @@ public class URole extends Role{
 	public void setSelected(Integer selected) {
 		this.selected = selected;
 	}
+
+	@Override
+	public String toString() {
+		return "URole [selected=" + selected + "]";
+	}
 	
 	
 }
