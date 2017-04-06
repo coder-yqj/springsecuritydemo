@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
     <body>
-        <div id="loginbox">   
+        <div id="loginbox">   ${SPRING_SECURITY_LAST_EXCEPTION.message}
             <form id="loginform" class="form-vertical" action="${ss }/spring_security_check" method="post">
 <%--				<input type="hidden" name="_csrf" value="">--%>
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />  

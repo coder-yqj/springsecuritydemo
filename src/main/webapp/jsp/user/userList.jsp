@@ -123,6 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <%--	<script src="${ss }/js/jquery.uniform.js"></script> --%>
 <%--	<script src="${ss }/js/select2.min.js"></script> --%>
 	<script src="${ss }/js/jquery.dataTables.min.js"></script> 
+	<script src="${ss }/js/layer.js"></script> 
 <%--	<script src="${ss }/js/matrix.js"></script> --%>
 	<script type="text/javascript">
 	//_csrf参数设置
@@ -153,7 +154,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         success: function(result) {  
                                 //异常判断与处理  
                                 if (result.errorCode) {  
-                                    alert("查询失败");  
+                                	layer.msg('查询失败');
                                     return;  
                                 }  
                                 //封装返回数据  
@@ -265,7 +266,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 xhr.setRequestHeader(header, token);  
             },
 		    success: function(data) {
-			    alert(data);
+				if(data=="success"){
+					layer.msg('保存成功');
+					 $('#selectRole').modal('hide');
+				}else{
+					layer.msg('保存失败');
+					 $('#selectRole').modal('hide');
+				}
 		    }
 		})
 	}
