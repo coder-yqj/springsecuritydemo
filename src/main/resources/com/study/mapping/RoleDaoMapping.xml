@@ -22,4 +22,9 @@
 		FROM t_role r 
 	</select>
 	
+	<select id="queryAll" parameterType="com.study.model.Role" resultType="com.study.model.Role">
+		SELECT id,roleDesc,roleKey FROM t_role where 1 = 1
+		ORDER BY id ASC
+	</select>
+	
 </mapper> 

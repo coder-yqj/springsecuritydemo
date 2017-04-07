@@ -46,4 +46,8 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	
+	public void addUser(User user){
+		userDao.addEntity(user);
+	}
+	
 }

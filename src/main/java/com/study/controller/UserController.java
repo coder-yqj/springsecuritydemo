@@ -53,7 +53,7 @@ public class UserController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping("/saveUserRoles")
+	@RequestMapping("/saveUserRoles.do")
 	public String saveUserRoles(UserRole userRole){
 		if(StringUtils.isEmpty(userRole.getUserId()))
 		return "error";
@@ -65,7 +65,18 @@ public class UserController {
 			return "fail";
 		}
 	}
-
+	
+	@ResponseBody
+	@RequestMapping("/addUser.do")
+	public String addUser(User user){
+		try {
+			userService.addUser(user);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+	}
 	
 	
 }

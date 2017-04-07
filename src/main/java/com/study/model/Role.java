@@ -9,8 +9,8 @@ public class Role implements Serializable{
 	 */
 	private static final long serialVersionUID = 2322564038632517975L;
 	private Integer id;
-	private String roleKey;
-	private String roleDesc;
+	private String roleKey; //角色key
+	private String roleDesc;//角色名称
 	
 	private List<Resources> resources;
 	

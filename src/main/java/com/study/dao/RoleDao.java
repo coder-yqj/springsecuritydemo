@@ -5,7 +5,7 @@ import java.util.List;
 import com.study.model.Role;
 import com.study.model.URole;
 
-public interface RoleDao {
+public interface RoleDao extends BaseDao{
 
 	public List<Role> findAllRolesWithResources();
 

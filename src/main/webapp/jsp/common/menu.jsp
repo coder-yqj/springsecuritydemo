@@ -1,8 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-th"></i>Tables</a>
 	  <ul>
-	    <li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-	    <li><a href="charts.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
+	    <li><a href="index.do"><i class="icon icon-home"></i> <span>用户管理</span></a> </li>
+	    <li><a href="roles.do"><i class="icon icon-signal"></i> <span>角色管理</span></a> </li>
 	    <li><a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
 	    <li class="active"><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
 	    <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>

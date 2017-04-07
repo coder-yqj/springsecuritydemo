@@ -6,10 +6,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.dao.RoleDao;
 import com.study.model.Role;
 import com.study.model.URole;
+import com.study.model.User;
 import com.study.service.RoleService;
 
 @Service("roleService")
@@ -25,8 +27,10 @@ public class RoleServiceImpl implements RoleService{
 
 	@Override
 	public PageInfo<Role> selectByPage(Role role, int page, int rows) {
-		// TODO Auto-generated method stub
-		return null;
+		   //分页查询
+        PageHelper.startPage(page, rows);
+        List<Role> rolelist = roleDao.queryAll(role);
+        return new PageInfo<>(rolelist);
 	}
 
 	@Override

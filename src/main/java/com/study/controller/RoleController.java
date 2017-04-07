@@ -24,13 +24,12 @@ public class RoleController {
 	private RoleService roleService;
 	
 	@ResponseBody
-	@RequestMapping("/userList.do")
+	@RequestMapping("/roleList.do")
 	public Map<String,Object> userList(Role role,String draw, 
 			@RequestParam(required = false, defaultValue = "1") int start,
             @RequestParam(required = false, defaultValue = "10") int length){
 		Map<String,Object> map = new HashMap<>();
 		PageInfo<Role> pageInfo = roleService.selectByPage(role, start, length);
-		System.out.println("pageInfo.getTotal():"+pageInfo.getTotal());
         map.put("draw",draw);
         map.put("recordsTotal",pageInfo.getTotal());
         map.put("recordsFiltered",pageInfo.getTotal());

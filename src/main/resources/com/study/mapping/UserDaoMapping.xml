@@ -19,7 +19,17 @@
 	</select>
 	
 	<select id="queryAll" parameterType="com.study.model.User" resultType="com.study.model.User">
-		SELECT id,username,enable FROM t_user
+		SELECT id,username,enable FROM t_user where 1 = 1
+		<if test="id != null and id != ''">
+			AND id = #{id}
+		</if>
+		<if test="username != null and username != ''">
+			AND username LIKE '%${username}%'
+		</if>
+		<if test="enable != null and enable != ''">
+			AND enable  = #{enable}
+		</if>
+			ORDER BY id ASC
 	</select>
 	
 	<delete id="delRolesByUserId" parameterType="string">
@@ -28,5 +38,9 @@
 	
 	<insert id="addUserRole" parameterType="com.study.model.UserRole">
 		INSERT INTO t_user_role(userId,roleId) VALUES (#{userId},#{roleId});
+	</insert>
+	
+	<insert id="addEntity" parameterType="com.study.model.User">
+		INSERT INTO t_user(username,password,enable) VALUES(#{username},#{password},1)
 	</insert>
 </mapper> 

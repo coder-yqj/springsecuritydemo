@@ -19,4 +19,6 @@ public interface UserService {
     public PageInfo<User> selectByPage(User user, int page, int rows);
     
 	public void saveUserRoles(UserRole userRole);
+	
+	public void addUser(User user);
 }
