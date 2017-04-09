@@ -1,7 +1,11 @@
 package com.study.model;
 
 import java.io.Serializable;
-
+/**
+ * 用户角色实体类
+ * @author Administrator
+ *
+ */
 public class UserRole implements Serializable {
 
 	/**

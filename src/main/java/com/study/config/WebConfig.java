@@ -21,10 +21,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 @Configuration
 @EnableWebMvc
-//@ComponentScan("com.study.controller")
-@ComponentScan(basePackages = "com.study", useDefaultFilters = false, includeFilters = {
-        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
-})
+@ComponentScan("com.study.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean 
@@ -52,17 +49,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     
 	 
 	 @Override
-	    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-	        super.configureMessageConverters(converters);
-	      
-	        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
-	 
-	        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-	        fastJsonConfig.setSerializerFeatures(
-	                SerializerFeature.PrettyFormat
-	        );
-	        fastConverter.setFastJsonConfig(fastJsonConfig);
-	      
-	        converters.add(fastConverter);
-	    }
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
+      
+        FastJsonHttpMessageConverter fastConverter = new FastJsonHttpMessageConverter();
+ 
+        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+        fastJsonConfig.setSerializerFeatures(
+                SerializerFeature.PrettyFormat
+        );
+        fastConverter.setFastJsonConfig(fastJsonConfig);
+      
+        converters.add(fastConverter);
+    }
 }

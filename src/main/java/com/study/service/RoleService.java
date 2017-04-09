@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
+import com.study.model.RoleResources;
 import com.study.model.URole;
 import com.study.model.User;
 
@@ -20,5 +21,8 @@ public interface RoleService {
 	 */
 	public List<URole> queryRoleListWithUser(Integer id);
 	
+	public void saveRoleResources(RoleResources roleResources);
+	
+	public void addRole(Role role);
 	
 }

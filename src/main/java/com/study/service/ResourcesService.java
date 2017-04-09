@@ -2,10 +2,10 @@ package com.study.service;
 
 import java.util.List;
 
-import com.study.model.Resources;
+import com.study.model.RResources;
 
 public interface ResourcesService {
 	
-	public List<Resources> queryAll();
+	public List<RResources> resourcesListWithRole(Integer rid);
 	
 }

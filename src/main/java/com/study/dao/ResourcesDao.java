@@ -1,5 +1,10 @@
 package com.study.dao;
 
-public interface ResourcesDao extends BaseDao{
+import java.util.List;
 
+import com.study.model.RResources;
+
+public interface ResourcesDao extends BaseDao{
+	
+	public List<RResources> resourcesListWithRole(Integer rid);
 }

@@ -366,6 +366,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    success: function(data) {
 		    	if(data=="success"){
 					layer.msg('保存成功');
+					table.ajax.reload();
 					 $('#addUser').modal('hide');
 				}else{
 					layer.msg('保存失败');

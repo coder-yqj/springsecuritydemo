@@ -2,7 +2,11 @@ package com.study.model;
 
 import java.io.Serializable;
 import java.util.List;
-
+/**
+ * 角色实体类
+ * @author Administrator
+ *
+ */
 public class Role implements Serializable{
 	/**
 	 * 

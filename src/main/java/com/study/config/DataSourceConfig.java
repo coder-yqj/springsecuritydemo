@@ -79,7 +79,7 @@ public class DataSourceConfig {
      */
     @Bean  
     public PageHelper pageHelper() {  
-       System.out.println("MyBatisConfiguration.pageHelper()");  
+    	logger.info("MyBatisConfiguration.pageHelper()");
         PageHelper pageHelper = new PageHelper();  
         Properties p = new Properties();  
         p.setProperty("offsetAsPageNum", "true");  

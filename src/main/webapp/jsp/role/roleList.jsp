@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <h5>用户列表</h5>
 	          </div>
 	          	<form class="form-inline">
-			          <button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
+			          <button type="button" id="btn_search" onclick="$('#addRole').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
 				</form>
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>
@@ -71,12 +71,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	
 	<%--弹框--%>
-			<div class="modal fade bs-example-modal-sm"  id="selectRole" tabindex="-1" role="dialog" aria-labelledby="selectRoleLabel">
+			<div class="modal fade bs-example-modal-sm"  id="selectResources" tabindex="-1" role="dialog" aria-labelledby="selectRoleLabel">
 			  <div class="modal-dialog modal-sm" role="document" style="height: 600px; "  >
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			        <h4 class="modal-title" id="selectRoleLabel">分配角色</h4>
+			        <h4 class="modal-title" id="selectRoleLabel">分配权限</h4>
 			      </div>
 			      <div class="modal-body">
 			        <form id="boxRoleForm" >
@@ -85,7 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        <button type="button" onclick="saveUserRoles();" class="btn btn-primary">Save</button>
+			        <button type="button" onclick="saveRoleResources();" class="btn btn-primary">Save</button>
 			      </div>
 			    </div>
 			  </div>
@@ -94,29 +94,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			
 		<!--添加弹框-->
-				<div class="modal fade" id="addUser" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+				<div class="modal fade" id="addRole" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="addroleLabel">添加用户</h4>
+				        <h4 class="modal-title" id="addroleLabel">添加角色</h4>
 				      </div>
 				      <div class="modal-body">
-				        <form id="userForm">
+				        <form id="roleForm">
 				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">用户名:</label>
-				            <input type="text" class="form-control" name="username" id="username" placeholder="请输入用户名"/>
-				             <span class="btn-action single glyphicons circle_question_mark" data-toggle="tooltip" data-placement="top" data-original-title="必填"><i></i></span> 
+				            <label for="recipient-name" class="control-label">角色名称:</label>
+				            <input type="text" class="form-control" name="roleDesc" id="roleDesc" placeholder="请输入角色名称"/>
 				          </div>
 				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">密码:</label>
-				            <input type="password" class="form-control" id="password" name="password"  placeholder="请输入密码 6位以上">
+				            <label for="recipient-name" class="control-label">角色key:</label>
+				            <input type="text" class="form-control" id="roleKey" name="roleKey"  placeholder="请输入角色key">
 				          </div>
 				        </form>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" onclick="addUser();" class="btn btn-primary">Save</button>
+				        <button type="button" onclick="addRole();" class="btn btn-primary">Save</button>
 				      </div>
 				    </div>
 				  </div>
@@ -180,77 +179,82 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		table.ajax.reload();
 	}
 	//弹出选择角色的框
-	function allotResources(id){
+	var roleId;
+	function allotResources(rid){
+		roleId = rid;  
 		var setting = {
 				check: {
-					enable: true
+					enable: true,
+					chkboxType:  { "Y" : "p", "N" : "s" }
 				},
 				data: {
 					simpleData: {
 						enable: true,
 						idKey: "id",
 						pIdKey: "parentId",
-						rootPId: 0
 					}
 				}
 			};
-		var zNodes =[
-		 			{ id:1, pId:0, name:"随意勾选 1", open:true},
-		 			{ id:11, pId:1, name:"随意勾选 1-1", open:true},
-		 			{ id:111, pId:11, name:"随意勾选 1-1-1"},
-		 			{ id:112, pId:11, name:"随意勾选 1-1-2"},
-		 			{ id:12, pId:1, name:"随意勾选 1-2", open:true},
-		 			{ id:121, pId:12, name:"随意勾选 1-2-1"},
-		 			{ id:122, pId:12, name:"随意勾选 1-2-2"},
-		 			{ id:2, pId:0, name:"随意勾选 2", checked:true, open:true},
-		 			{ id:21, pId:2, name:"随意勾选 2-1"},
-		 			{ id:22, pId:2, name:"随意勾选 2-2", open:true},
-		 			{ id:221, pId:22, name:"随意勾选 2-2-1", checked:true},
-		 			{ id:222, pId:22, name:"随意勾选 2-2-2"},
-		 			{ id:23, pId:2, name:"随意勾选 2-3"}
-		 		];
-		$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		
-		$('#selectRole').modal();
-	}
-	
-	//保存角色的选择
-	function saveUserRoles() {
 		
 		$.ajax({
-			cache: true,
-			type: "POST",
-			url:'${ss}/user/saveUserRoles.do',
-			data:$('#boxRoleForm').serialize(),// 你的formid
-			async: false,
-			dataType:"json",
+			async:false,
+			type : "POST",
+			data:{rid:rid},
+			url: "${ss}/resources/resourcesListWithRole.do",
+			dataType:'json',
 			beforeSend: function(xhr){  
                 xhr.setRequestHeader(header, token);  
             },
-		    success: function(data) {
-				if(data=="success"){
-					layer.msg('保存成功');
-					 $('#selectRole').modal('hide');
-				}else{
-					layer.msg('保存失败');
-					 $('#selectRole').modal('hide');
-				}
-		    }
-		})
+			success: function(data){
+				
+				$.fn.zTree.init($("#treeDemo"), setting, data);
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.expandAll(true); 
+				$('#selectResources').modal();		
+			  }
+		    });   
+		
 	}
 	
-	
+	//保存权限的选择
+	function saveRoleResources() {
+		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+		checkNode= zTree.getCheckedNodes(true);
+		var ids = new Array();
+		for(var i=0;i<checkNode.length;i++){
+			ids.push(checkNode[i].id);
+		}
+		$.ajax({
+			async:false,
+			type : "POST",
+			data:{roleId:roleId,resourcesId:ids.join(",")},
+			url: "${ss}/role/saveRoleResources.do",
+			dataType:'json',
+			beforeSend: function(xhr){  
+                xhr.setRequestHeader(header, token);  
+            },
+			success: function(data){
+				if(data=="success"){
+					layer.msg('保存成功');
+					 $('#selectResources').modal('hide');
+				}else{
+					layer.msg('保存失败');
+					 $('#selectResources').modal('hide');
+				}	
+			  }
+		    });   
+	}
 	//添加用户
-	function addUser() {
-		var username = $("#username").val();
-		var password = $("#password").val();
-		if(username == "" || username == undefined || username == null){
-			return layer.msg('用户名不能为空', function(){
+	function addRole() {
+		var roleKey = $("#roleKey").val();
+		var roleDesc = $("#roleDesc").val();
+		if(roleKey == "" || roleKey == undefined || roleKey == null){
+			return layer.msg('角色key不能为空', function(){
 				//关闭后的操作
 			});
 		}
-		if(password.length<6||password.length>=16){
-			return layer.msg('密码长度为6-16', function(){
+		if(roleDesc == "" || roleDesc == undefined || roleDesc == null){
+			return layer.msg('角色名称不能为空', function(){
 				//关闭后的操作
 			});
 		}
@@ -258,8 +262,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$.ajax({
 			cache: true,
 			type: "POST",
-			url:'${ss}/user/addUser.do',
-			data:$('#userForm').serialize(),// 你的formid
+			url:'${ss}/role/addRole.do',
+			data:$('#roleForm').serialize(),// 你的formid
 			async: false,
 			dataType:"json",
 			beforeSend: function(xhr){  
@@ -268,10 +272,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    success: function(data) {
 		    	if(data=="success"){
 					layer.msg('保存成功');
-					 $('#addUser').modal('hide');
+					table.ajax.reload();
+					 $('#addRole').modal('hide');
 				}else{
 					layer.msg('保存失败');
-					 $('#addUser').modal('hide');
+					 $('#addRole').modal('hide');
 				}
 		    }
 		});

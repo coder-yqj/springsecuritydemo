@@ -1,7 +1,11 @@
 package com.study.model;
 
 import java.io.Serializable;
-
+/**
+ * 资源实体类
+ * @author Administrator
+ *
+ */
 public class Resources implements Serializable {
 	/**
 	 * 

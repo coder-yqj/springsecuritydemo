@@ -15,7 +15,6 @@ import com.study.model.User;
 import com.study.model.UserRole;
 import com.study.service.UserService;
 @Service
-@Transactional(propagation=Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
 public class UserServiceImpl implements UserService{
 	
 	@Resource
@@ -35,6 +34,7 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
 	public void saveUserRoles(UserRole userRole) {
 		userDao.delRolesByUserId(userRole.getUserId());
 		String[] roleids = userRole.getRoleId().split(",");

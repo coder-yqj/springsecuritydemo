@@ -37,7 +37,7 @@
 	</delete>
 	
 	<insert id="addUserRole" parameterType="com.study.model.UserRole">
-		INSERT INTO t_user_role(userId,roleId) VALUES (#{userId},#{roleId});
+		INSERT INTO t_user_role(userId,roleId) VALUES (#{userId},#{roleId})
 	</insert>
 	
 	<insert id="addEntity" parameterType="com.study.model.User">

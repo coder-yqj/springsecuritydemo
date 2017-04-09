@@ -27,4 +27,16 @@
 		ORDER BY id ASC
 	</select>
 	
+	<delete id="deleteRoleResources" parameterType="int">
+		DELETE FROM t_role_resources WHERE roleId =#{id}
+	</delete>
+	
+	<insert id="addRoleResources" parameterType="com.study.model.RoleResources">
+		INSERT INTO t_role_resources(roleId,resourcesId) VALUES (#{roleId},#{resourcesId})
+	</insert>
+	
+	<insert id="addEntity" parameterType="com.study.model.Role">
+		INSERT INTO t_role(roleDesc,roleKey) VALUES (#{roleDesc},#{roleKey})
+	</insert>
+	
 </mapper> 

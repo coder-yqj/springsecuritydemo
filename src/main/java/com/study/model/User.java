@@ -2,7 +2,11 @@ package com.study.model;
 
 import java.io.Serializable;
 import java.util.Set;
-
+/**
+ * 用户实体类
+ * @author Administrator
+ *
+ */
 public class User implements Serializable{
 	/**
 	 * 

@@ -3,6 +3,15 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.study.dao.ResourcesDao">  
 	
-	<select id="queryAll" resultType=""></select>
+		
+	<select id="resourcesListWithRole" parameterType="int" resultType="com.study.model.RResources">
+		SELECT re.id,re.name,re.parentId,re.resUrl,re.type,
+		(CASE WHEN EXISTS(SELECT 1 
+		FROM t_role_resources rr WHERE rr.resourcesId=re.id AND rr.roleId=#{rid})
+		THEN 'true' ELSE 'false' END) AS checked
+		FROM t_resources re
+		WHERE re.parentId !=0
+		ORDER BY re.sort ASC
+	</select>	
 		
 </mapper> 

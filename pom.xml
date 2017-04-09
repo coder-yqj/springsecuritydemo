@@ -117,7 +117,17 @@
 		    <artifactId>pagehelper</artifactId>  
 		    <version>4.1.4</version>  
 		</dependency>  
-        
+        <!-- aop aspectj -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.1</version>
+		</dependency>
+		<dependency>  
+		  <groupId>org.aspectj</groupId>  
+		  <artifactId>aspectjrt</artifactId>  
+		  <version>1.8.1</version>  
+		</dependency>  
   </dependencies>
   <build>  
     <plugins>  

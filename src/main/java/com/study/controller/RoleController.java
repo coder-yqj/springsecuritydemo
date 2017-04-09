@@ -7,12 +7,14 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
+import com.study.model.RoleResources;
 import com.study.model.URole;
 import com.study.service.RoleService;
 
@@ -47,6 +49,42 @@ public class RoleController {
 	public List<URole> roleListWithUser(Integer uid){
 		List<URole> list = roleService.queryRoleListWithUser(uid);
 		return list;
+	}
+	
+	/**
+	 * 保存角色的权限
+	 * @param roleResources
+	 *  roleResources 中的resourcesId 现在是以“,”分隔的字符串
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/saveRoleResources.do")
+	public String saveRoleResources(RoleResources roleResources){
+		if(StringUtils.isEmpty(roleResources.getRoleId()))
+			return "error";
+		try {
+			roleService.saveRoleResources(roleResources);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+	}
+	
+	/**
+	 * 添加角色
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/addRole.do")
+	public String addRole(Role role){
+		try {
+			roleService.addRole(role);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
 	}
 	
 }
