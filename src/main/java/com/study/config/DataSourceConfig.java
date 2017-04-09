@@ -60,7 +60,7 @@ public class DataSourceConfig {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();  
         sessionFactory.setDataSource(dataSource());
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-        sessionFactory.setMapperLocations(resolver.getResources("classpath:com/study/mapping/*Mapping.xml"));
+        sessionFactory.setMapperLocations(resolver.getResources("classpath:mapping/*Mapping.xml"));
         //配置pageHelper 
         sessionFactory.setPlugins(new Interceptor[]{pageHelper()});
         return sessionFactory.getObject();

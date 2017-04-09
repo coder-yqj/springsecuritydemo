@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="${ss }/css/jquery.dataTables.min.css" /> 
 <link rel="stylesheet" href="${ss }/css/matrix-style.css" />
 <link rel="stylesheet" href="${ss }/css/matrix-media.css" />
-<link rel="stylesheet" href="${ss }/css/zTreeStyle.css" type="text/css">
+<link rel="stylesheet" href="${ss }/css/metroStyle.css" type="text/css">
 <link href="${ss }/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 <meta name="_csrf" content="${_csrf.token}"/><meta name="_csrf_header" content="${_csrf.headerName}"/>
@@ -62,13 +62,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                    	  <th>操作</th>
 	                </tr>
 	              </thead>
-	             <!--  <tfoot>
-		            <tr>
-	                  <th>ID</th>
-	                  <th>用户名</th>
-	                  <th>是否启用</th>
-		            </tr>
-		        </tfoot> -->
 	            </table>
 	          </div>
 	        </div>
@@ -194,7 +187,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				},
 				data: {
 					simpleData: {
-						enable: true
+						enable: true,
+						idKey: "id",
+						pIdKey: "parentId",
+						rootPId: 0
 					}
 				}
 			};
