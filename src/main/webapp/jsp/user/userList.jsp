@@ -78,7 +78,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                  <th>ID</th>
 	                  <th>用户名</th>
 	                  <th>是否启用</th>
-	                  <th>拥有角色</th>
                    	  <th>操作</th>
 	                </tr>
 	              </thead>
@@ -180,7 +179,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				"sPaginationType": "full_numbers",
 			  	"serverSide": true,//开启服务器模式，使用服务器端处理配置datatable
 			  	"processing": true,//开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
-			  	
 			  	//"ajax": '${ss}/user/userList.do', 
 			  	  ajax : function(data, callback, settings) {  
                 //封装请求参数  
@@ -215,13 +213,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            { "data": "id" },
 		            { "data": "username" },
 		            { "data": "enable" },
-		            { "data": "roles" },
 		            {data: null}
 		        ],
 			columnDefs:[{
-                targets: 4,
+                targets: 3,
                 render: function (data, type, row, meta) {
-                    return '<p><a type="button" class="btn btn-danger  btn-default" href="#" onclick=delFromID(' + row.id + ') >删除</a> '+
+                    return '<p><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delByID(' + row.id + ') >删除</a> '+
                     '<a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotRole(' + row.id + ') >分配角色</a></p>';
                 }
             },
@@ -237,28 +234,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         }
                     },
                     "targets": 2
-                },
-                { "orderable": false, "targets": 3 ,
-                	"render": function(data, type, row) {
-                		var str="";
-<%--                       for(i=0;i<data.length;i++){--%>
-<%--                		   //如果没有角色，直接返回“无”--%>
-<%--                    	   if(data[i].roleDesc==undefined){--%>
-<%--							str = "无"; --%>
-<%--							break;--%>
-<%--                		   }--%>
-<%--                    	   str+=data[i].roleDesc;--%>
-<%--                		   //列表上就显示两个角色，多余的用 “...”表示--%>
-<%--                    	   if(i==1){--%>
-<%--                    		 str+="...";--%>
-<%--                    		 break;--%>
-<%--                		   }else if(i!=data.length-1){--%>
-<%--                    	   	str+=",";--%>
-<%--                		   }--%>
-<%--                		   --%>
-<%--                       }--%>
-                	   return str;
-                    }	
                 },
             ],
                 
@@ -371,6 +346,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}else{
 					layer.msg('保存失败');
 					 $('#addUser').modal('hide');
+				}
+		    }
+		});
+	}
+	
+	function delByID(id) {
+		$.ajax({
+			cache: true,
+			type: "POST",
+			url:'${ss}/user/delUser.do',
+			data:{id:id},
+			async: false,
+			dataType:"json",
+			beforeSend: function(xhr){  
+                xhr.setRequestHeader(header, token);  
+            },
+		    success: function(data) {
+		    	if(data=="success"){
+					layer.msg('删除成功');
+					table.ajax.reload();
+				}else{
+					layer.msg('删除失败');
 				}
 		    }
 		});

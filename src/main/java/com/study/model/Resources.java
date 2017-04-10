@@ -1,6 +1,7 @@
 package com.study.model;
 
 import java.io.Serializable;
+import java.util.List;
 /**
  * 资源实体类
  * @author Administrator
@@ -17,6 +18,8 @@ public class Resources implements Serializable {
 	private String resUrl;//资源链接
 	private Integer type;//资源类型   1:菜单    2：按钮
 	private Integer sort;//排序
+	
+	private List<Role> roles; //可访问角色
 	public Integer getId() {
 		return id;
 	}
@@ -46,6 +49,20 @@ public class Resources implements Serializable {
 	}
 	public void setType(Integer type) {
 		this.type = type;
+	}
+	
+	public Integer getSort() {
+		return sort;
+	}
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
+	
+	public List<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 	@Override
 	public String toString() {

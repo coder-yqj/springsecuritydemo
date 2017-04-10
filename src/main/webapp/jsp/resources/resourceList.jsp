@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>角色管理</title>
+    <title>资源管理</title>
     
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="${ss }/css/bootstrap.min.css" />
@@ -48,17 +48,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	        
 	        <div class="widget-box">
 	          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-	            <h5>角色列表</h5>
+	            <h5>资源列表</h5>
 	          </div>
 	          	<form class="form-inline">
-			          <button type="button" id="btn_search" onclick="$('#addRole').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
+			          <button type="button" id="btn_search" onclick="$('#resourcesModal').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
 				</form>
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>
 	              	<tr>
 	                  <th>ID</th>
-	                  <th>角色key</th>
-	                  <th>角色名称</th>
+	                  <th>资源名称</th>
+	                  <th>父资源</th>
+	                  <th>资源链接</th>
+	                  <th>资源类型</th>
+	                  <th>排序</th>
                    	  <th>操作</th>
 	                </tr>
 	              </thead>
@@ -94,28 +97,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			
 		<!--添加弹框-->
-				<div class="modal fade" id="addRole" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
+				<div class="modal fade" id="resourcesModal" tabindex="-1" role="dialog" aria-labelledby="addroleLabel">
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				        <h4 class="modal-title" id="addroleLabel">添加角色</h4>
+				        <h4 class="modal-title" id="addroleLabel">添加资源</h4>
 				      </div>
 				      <div class="modal-body">
-				        <form id="roleForm">
+				        <form id="resourcesForm">
 				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">角色名称:</label>
-				            <input type="text" class="form-control" name="roleDesc" id="roleDesc" placeholder="请输入角色名称"/>
+				            <label for="recipient-name" class="control-label">资源名称:</label>
+				            <input type="text" class="form-control" name="name" id="name" placeholder="请输入资源名称"/>
 				          </div>
 				          <div class="form-group">
-				            <label for="recipient-name" class="control-label">角色key:</label>
-				            <input type="text" class="form-control" id="roleKey" name="roleKey"  placeholder="请输入角色key">
+				            <label for="recipient-name" class="control-label">父资源ID:</label>
+				            <input type="text" class="form-control" id="parentId" name="parentId"  placeholder="请输入父资源ID">
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">资源链接:</label>
+				            <input type="text" class="form-control" id="resUrl" name="resUrl"  placeholder="请输入资源链接">
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">资源类型:</label>
+				            <select class="form-control" name="type" id="type" >
+							  <option value="1">菜单</option>
+							  <option value="2">按钮</option>
+							</select>
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">排序:</label>
+				            <input type="text" class="form-control" id="sort" name="sort"  placeholder="请输入排序">
 				          </div>
 				        </form>
 				      </div>
 				      <div class="modal-footer">
 				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-				        <button type="button" onclick="addRole();" class="btn btn-primary">Save</button>
+				        <button type="button" onclick="addResources();" class="btn btn-primary">Save</button>
 				      </div>
 				    </div>
 				  </div>
@@ -150,23 +168,41 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	"serverSide": true,//开启服务器模式，使用服务器端处理配置datatable
 			  	"processing": true,//开启读取服务器数据时显示正在加载中……特别是大数据量的时候，开启此功能比较好
 			  	
-			  	"ajax": '${ss}/role/roleList.do', 
+			  	"ajax": '${ss}/resources/resourcesList.do', 
 			  	"columns": [
 		            { "data": "id" },
-		            { "data": "roleKey" },
-		            { "data": "roleDesc" },
+		            { "data": "name" },
+		            { "data": "parentId" },
+		            { "data": "resUrl" },
+		            { "data": "type" },
+		            { "data": "sort" },
 		            {data: null}
 		        ],
 			columnDefs:[{
-                targets: 3,
+                targets: 6,
                 render: function (data, type, row, meta) {
                     return '<p><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delById(' + row.id + ') >删除</a> '+
-                    '<a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotResources(' + row.id + ') >分配权限</a></p>';
+                    '<a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotResources(' + row.id + ') >修改</a></p>';
                 }
             },
                 { "orderable": false, "targets": 0 },
                 { "orderable": false, "targets": 1 },
                 { "orderable": false, "targets": 2 },
+                { "orderable": false, "targets": 3 },
+                {	 
+                	"orderable": false,
+                    "render": function(data, type, row) {
+                        if(data==1){
+                        	return "菜单";
+                        }else if(data==2){
+                        	return "按钮";
+                        }else{
+                        	return "其他";
+                        }
+                    },
+                    "targets": 4
+                },
+                { "orderable": false, "targets": 5 }
             ],
                 
 		    } );
@@ -178,92 +214,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	function search(){
 		table.ajax.reload();
 	}
-	//弹出选择角色的框
-	var roleId;
-	function allotResources(rid){
-		roleId = rid;  
-		var setting = {
-				check: {
-					enable: true,
-					chkboxType:  { "Y" : "p", "N" : "s" }
-				},
-				data: {
-					simpleData: {
-						enable: true,
-						idKey: "id",
-						pIdKey: "parentId",
-					}
-				}
-			};
-		
-		$.ajax({
-			async:false,
-			type : "POST",
-			data:{rid:rid},
-			url: "${ss}/resources/resourcesListWithRole.do",
-			dataType:'json',
-			beforeSend: function(xhr){  
-                xhr.setRequestHeader(header, token);  
-            },
-			success: function(data){
-				
-				$.fn.zTree.init($("#treeDemo"), setting, data);
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				zTree.expandAll(true); 
-				$('#selectResources').modal();		
-			  }
-		    });   
-		
-	}
 	
-	//保存权限的选择
-	function saveRoleResources() {
-		var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-		checkNode= zTree.getCheckedNodes(true);
-		var ids = new Array();
-		for(var i=0;i<checkNode.length;i++){
-			ids.push(checkNode[i].id);
-		}
-		$.ajax({
-			async:false,
-			type : "POST",
-			data:{roleId:roleId,resourcesId:ids.join(",")},
-			url: "${ss}/role/saveRoleResources.do",
-			dataType:'json',
-			beforeSend: function(xhr){  
-                xhr.setRequestHeader(header, token);  
-            },
-			success: function(data){
-				if(data=="success"){
-					layer.msg('保存成功');
-					 $('#selectResources').modal('hide');
-				}else{
-					layer.msg('保存失败');
-					 $('#selectResources').modal('hide');
-				}	
-			  }
-		    });   
-	}
 	//添加用户
-	function addRole() {
-		var roleKey = $("#roleKey").val();
-		var roleDesc = $("#roleDesc").val();
-		if(roleKey == "" || roleKey == undefined || roleKey == null){
-			return layer.msg('角色key不能为空', function(){
-				//关闭后的操作
-			});
-		}
-		if(roleDesc == "" || roleDesc == undefined || roleDesc == null){
-			return layer.msg('角色名称不能为空', function(){
-				//关闭后的操作
-			});
-		}
+	function addResources() {
+		var name = $("#name").val();
+		var parentId = $("#parentId").val();
+		var resUrl = $("#resUrl").val();
+		var sort = $("#sort").val();
 		
+		if(name == "" || name == undefined || name == null){
+			return layer.msg('资源名称不能为空', function(){
+				//关闭后的操作
+			});
+		}
+		if(parentId == "" || parentId == undefined || parentId == null){
+			return layer.msg('父资源id不能为空', function(){
+				//关闭后的操作
+			});
+		}
+		if(resUrl == "" || resUrl == undefined || resUrl == null){
+			return layer.msg('资源链接不能为空', function(){
+				//关闭后的操作
+			});
+		}
+		if(sort == "" || sort == undefined || sort == null){
+			return layer.msg('资源排序不能为空', function(){
+				//关闭后的操作
+			});
+		}
+
 		$.ajax({
 			cache: true,
 			type: "POST",
-			url:'${ss}/role/addRole.do',
-			data:$('#roleForm').serialize(),// 你的formid
+			url:'${ss}/resources/addResources.do',
+			data:$('#resourcesForm').serialize(),// 你的formid
 			async: false,
 			dataType:"json",
 			beforeSend: function(xhr){  
@@ -273,21 +257,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	if(data=="success"){
 					layer.msg('保存成功');
 					table.ajax.reload();
-					 $('#addRole').modal('hide');
+					 $('#resourcesModal').modal('hide');
 				}else{
 					layer.msg('保存失败');
-					 $('#addRole').modal('hide');
+					 $('#resourcesModal').modal('hide');
 				}
 		    }
 		});
 	}
 	
-	
 	function delById(id) {
 		$.ajax({
 			cache: true,
 			type: "POST",
-			url:'${ss}/role/delRole.do',
+			url:'${ss}/resources/delResources.do',
 			data:{id:id},
 			async: false,
 			dataType:"json",
@@ -304,6 +287,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    }
 		});
 	}
+	
 	</script>
 
   </body>

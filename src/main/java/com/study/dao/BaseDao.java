@@ -19,7 +19,7 @@ public interface BaseDao {
 	
 	public void addEntity(Object obj);
 	
-	public void deleteEntity(String id);
+	public void deleteEntity(Integer id);
 	
 	public void editEntity(Object obj);
 	

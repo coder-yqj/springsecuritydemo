@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
@@ -19,13 +20,13 @@ import com.study.model.URole;
 import com.study.service.RoleService;
 
 @Controller
+@RestController
 @RequestMapping("/role")
 public class RoleController {
 	
 	@Resource
 	private RoleService roleService;
 	
-	@ResponseBody
 	@RequestMapping("/roleList.do")
 	public Map<String,Object> userList(Role role,String draw, 
 			@RequestParam(required = false, defaultValue = "1") int start,
@@ -44,7 +45,6 @@ public class RoleController {
 	 * @param uid 用户id
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/roleListWithUser.do")
 	public List<URole> roleListWithUser(Integer uid){
 		List<URole> list = roleService.queryRoleListWithUser(uid);
@@ -57,7 +57,6 @@ public class RoleController {
 	 *  roleResources 中的resourcesId 现在是以“,”分隔的字符串
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/saveRoleResources.do")
 	public String saveRoleResources(RoleResources roleResources){
 		if(StringUtils.isEmpty(roleResources.getRoleId()))
@@ -75,11 +74,21 @@ public class RoleController {
 	 * 添加角色
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/addRole.do")
 	public String addRole(Role role){
 		try {
 			roleService.addRole(role);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+	}
+	
+	@RequestMapping("/delRole.do")
+	public String delRole(Integer id){
+		try {
+			roleService.delRole(id);
 			return "success";
 		} catch (Exception e) {
 			e.printStackTrace();

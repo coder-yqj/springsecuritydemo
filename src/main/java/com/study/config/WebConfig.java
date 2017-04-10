@@ -21,7 +21,10 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("com.study.controller")
+//@ComponentScan("com.study.controller")
+@ComponentScan(basePackages = "com.study", useDefaultFilters = false, includeFilters = {
+        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = {Controller.class})
+})
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean 

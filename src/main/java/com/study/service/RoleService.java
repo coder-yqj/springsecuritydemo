@@ -12,7 +12,7 @@ public interface RoleService {
 
 	public List<Role> findAllRolesWithResources();
 	
-	public PageInfo<Role> selectByPage(Role role, int page, int rows);
+	public PageInfo<Role> selectByPage(Role role, int start, int length);
 
 	/**
 	 * 查询所有角色，并且包含当前用户是否选中
@@ -24,5 +24,7 @@ public interface RoleService {
 	public void saveRoleResources(RoleResources roleResources);
 	
 	public void addRole(Role role);
+	
+	public void delRole(Integer id);
 	
 }

@@ -30,9 +30,10 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
-	public PageInfo<Role> selectByPage(Role role, int page, int rows) {
-		   //分页查询
-        PageHelper.startPage(page, rows);
+	public PageInfo<Role> selectByPage(Role role,int start, int length) {
+		int page = start/length+1;  
+		//分页查询
+        PageHelper.startPage(page, length);
         List<Role> rolelist = roleDao.queryAll(role);
         return new PageInfo<>(rolelist);
 	}
@@ -62,6 +63,11 @@ public class RoleServiceImpl implements RoleService{
 	@Override
 	public void addRole(Role role) {
 		roleDao.addEntity(role);
+	}
+
+	@Override
+	public void delRole(Integer id) {
+		roleDao.deleteEntity(id);
 	}
 
 }

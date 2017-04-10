@@ -50,18 +50,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)//在正确的位置添加我们自定义的过滤器  
 	        .authorizeRequests()
 	        .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
-	        .anyRequest().authenticated();
+	        .anyRequest().authenticated()
 //	       .and().formLogin().and()
 //	        .httpBasic();
 		// 自定义登录页面
-		http.formLogin().loginPage("/jsp/login.jsp")
-				.failureUrl("/jsp/login.jsp?error=1")
-				.loginProcessingUrl("/spring_security_check")
-				.usernameParameter("username")
-				.passwordParameter("password").permitAll().defaultSuccessUrl("/index.do");
+	        .and()
+	        .formLogin().loginPage("/jsp/login.jsp")
+			.failureUrl("/jsp/login.jsp?error=1")
+			.loginProcessingUrl("/spring_security_check")
+			.usernameParameter("username")
+			.passwordParameter("password").permitAll().defaultSuccessUrl("/index.do")
+		// 自定义注销
+			.and()
+			.logout().logoutSuccessUrl("/jsp/login.jsp?logout")
+					.invalidateHttpSession(true);
 	}
 	
-	
+		
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth)

@@ -26,9 +26,10 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public PageInfo<User> selectByPage(User user,int page, int rows) {
+	public PageInfo<User> selectByPage(User user,int start, int length) {
+		int page = start/length+1;
         //分页查询
-        PageHelper.startPage(page, rows);
+        PageHelper.startPage(page, length);
         List<User> userlist = userDao.queryAll(user);
         return new PageInfo<>(userlist);
 	}
@@ -48,6 +49,11 @@ public class UserServiceImpl implements UserService{
 	
 	public void addUser(User user){
 		userDao.addEntity(user);
+	}
+
+	@Override
+	public void delUser(Integer id) {
+		userDao.deleteEntity(id);
 	}
 	
 }

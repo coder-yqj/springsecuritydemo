@@ -2,8 +2,7 @@ package com.study.config;
 
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
+import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
@@ -15,17 +14,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 
 import com.github.pagehelper.PageHelper;
 
 @Configuration
 //加载资源文件
 @PropertySource({"classpath:jdbc.properties"})
-//启用注解事务管理，使用CGLib代理
-@EnableTransactionManagement(proxyTargetClass = true)
-public class DataSourceConfig {
+//加上这个注解，使得支持事务
+@EnableTransactionManagement
+public class DataSourceConfig implements TransactionManagementConfigurer {
 	private static final Logger logger = Logger.getLogger(DataSourceConfig.class);
 	/*
 	 * 绑定资源属性
@@ -38,23 +38,32 @@ public class DataSourceConfig {
 	String userName;
 	@Value("${jdbc.password}")
 	String passWord;
-	
-	@Bean(name = "dataSource")
-	public DataSource dataSource() {
+	@Value("${jdbc.maxActive}")
+    private int maxActive;
+    @Value("${jdbc.maxIdel}")
+    private int maxIdel;
+    @Value("${jdbc.maxWait}")
+    private long maxWait;
+    
+    @Bean(name = "dataSource")
+	public BasicDataSource dataSource() {
 		logger.info("DataSource");
-		DriverManagerDataSource dataSource = new DriverManagerDataSource();
+		 BasicDataSource dataSource = new BasicDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		dataSource.setUrl("jdbc:mysql://localhost:3306/mytest?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false");
 		dataSource.setUsername("root");
 		dataSource.setPassword("root");
+//		dataSource.setDriverClassName(driverClass);
+//		dataSource.setUrl(url);
+//		dataSource.setUsername(userName);
+//		dataSource.setPassword(passWord);
+//		dataSource.setMaxActive(maxActive);
+//        dataSource.setMaxIdle(maxIdel);
+//        dataSource.setMaxWait(maxWait);
 		return dataSource;
 	}
 	
-	@Bean  
-    public DataSourceTransactionManager txManager() {  
-        return new DataSourceTransactionManager(dataSource());  
-    }  
-	    
+    
     @Bean  
     public SqlSessionFactory sqlSessionFactory() throws Exception {  
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();  
@@ -87,7 +96,13 @@ public class DataSourceConfig {
         p.setProperty("reasonable", "true");  
         pageHelper.setProperties(p);  
         return pageHelper;  
-    }  
+    }
+
+
+	@Override
+	public PlatformTransactionManager annotationDrivenTransactionManager() {
+		 return new DataSourceTransactionManager(dataSource());
+	}  
 
 }
 

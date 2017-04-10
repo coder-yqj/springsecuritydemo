@@ -16,9 +16,11 @@ public interface UserService {
      * @param rows
      * @return
      */
-    public PageInfo<User> selectByPage(User user, int page, int rows);
+    public PageInfo<User> selectByPage(User user, int start, int length);
     
 	public void saveUserRoles(UserRole userRole);
 	
 	public void addUser(User user);
+	
+	public void delUser(Integer id);
 }

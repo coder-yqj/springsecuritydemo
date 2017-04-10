@@ -16,4 +16,8 @@ public class IndexController {
 		return "role/roleList";
 	}
 	
+	@RequestMapping("resources.do")
+	public String resources(){
+		return "resources/resourceList";
+	}
 }

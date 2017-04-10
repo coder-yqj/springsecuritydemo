@@ -2,6 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.study.dao.ResourcesDao">  
+	<resultMap type="com.study.model.Resources" id="resourcesMap" autoMapping="true">
+		<id property="id" column="id"/>
+		<collection property="roles" ofType="com.study.model.Role" autoMapping="true"></collection>
+	</resultMap>
+	
+	<select id="findAllResourcesWithRoles" resultMap="resourcesMap">
+		SELECT re.id,re.name,re.parentId,re.resUrl,re.sort,re.type ,ro.roleKey
+		FROM t_resources re LEFT JOIN t_role_resources rr
+		ON re.id = rr.resourcesId
+		LEFT JOIN t_role ro
+		ON rr.roleId = ro.id
+	</select>
 	
 		
 	<select id="resourcesListWithRole" parameterType="int" resultType="com.study.model.RResources">
@@ -13,5 +25,19 @@
 		WHERE re.parentId !=0
 		ORDER BY re.sort ASC
 	</select>	
+	
+	<select id="queryAll" parameterType="com.study.model.Resources" resultType="com.study.model.Resources">
+		SELECT id,name,parentId,resUrl,type,sort 
+		FROM t_resources
+		ORDER BY sort ASC  
+	</select>
+	
+	<insert id="addEntity" parameterType="com.study.model.Resources">
+		INSERT INTO t_resources(name,parentId,resUrl,type,sort) VALUES(#{name},#{parentId},#{resUrl},#{type},#{sort})
+	</insert>
+
+	<delete id="deleteEntity" parameterType="int">
+		DELETE FROM t_resources WHERE id = #{id}
+	</delete>
 		
 </mapper> 

@@ -39,4 +39,7 @@
 		INSERT INTO t_role(roleDesc,roleKey) VALUES (#{roleDesc},#{roleKey})
 	</insert>
 	
+	<delete id="deleteEntity" parameterType="int">
+		DELETE FROM t_role WHERE id = #{id}
+	</delete>
 </mapper> 

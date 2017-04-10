@@ -1,16 +1,24 @@
 package com.study.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.springframework.security.access.ConfigAttribute;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
+import com.study.dao.ResourcesDao;
+import com.study.model.Resources;
+import com.study.model.Role;
 
 /**
  * 加载资源与权限的对应关系
@@ -18,6 +26,9 @@ import org.springframework.stereotype.Service;
 @Component
 public class MySecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
 
+	@Resource
+	private ResourcesDao resourcesDao;
+	
 	
 	private static Map<String, Collection<ConfigAttribute>> resourceMap = null;
 
@@ -39,7 +50,15 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
 	private void loadResourceDefine() {
 		if (resourceMap == null) {
 			resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-			
+			List<Resources> list = resourcesDao.findAllResourcesWithRoles();
+			for (Resources resources : list) {
+				Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
+				for (Role role : resources.getRoles()) {
+					ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + role.getRoleKey());
+					configAttributes.add(configAttribute);
+				}
+				resourceMap.put(resources.getResUrl(), configAttributes);
+			}
 			/*OaMenu obj = new OaMenu();
 			List<OaMenu> resources = this.menuDao.queryAll(obj);
 			for (OaMenu resource : resources) {

@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.User;
@@ -19,6 +20,7 @@ import com.study.service.UserService;
 
 @Controller
 @RequestMapping("/user")
+@RestController
 public class UserController {
 	
 	@Resource
@@ -31,7 +33,6 @@ public class UserController {
 	 * @param length 每页的长度
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/userList.do")
 	public Map<String,Object> userList(User user,String draw, 
 			@RequestParam(required = false, defaultValue = "1") int start,
@@ -52,7 +53,6 @@ public class UserController {
 	 *  	  此处获取的参数的角色id是以 “,” 分隔的字符串
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/saveUserRoles.do")
 	public String saveUserRoles(UserRole userRole){
 		if(StringUtils.isEmpty(userRole.getUserId()))
@@ -66,7 +66,6 @@ public class UserController {
 		}
 	}
 	
-	@ResponseBody
 	@RequestMapping("/addUser.do")
 	public String addUser(User user){
 		try {
@@ -78,5 +77,15 @@ public class UserController {
 		}
 	}
 	
+	@RequestMapping("/delUser.do")
+	public String delUser(Integer id){
+		try {
+			userService.delUser(id);
+			return "success";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "fail";
+		}
+	}
 	
 }

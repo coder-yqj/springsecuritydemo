@@ -43,4 +43,8 @@
 	<insert id="addEntity" parameterType="com.study.model.User">
 		INSERT INTO t_user(username,password,enable) VALUES(#{username},#{password},1)
 	</insert>
+	
+	<delete id="deleteEntity" parameterType="int">
+		DELETE FROM t_user WHERE id = #{id}
+	</delete>
 </mapper> 
