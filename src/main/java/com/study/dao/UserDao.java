@@ -10,4 +10,6 @@ public interface UserDao extends BaseDao{
 	public void delRolesByUserId(String userId);
 	
 	public void addUserRole(UserRole userRole);
+	
+	public User queryByName(String username);
 }

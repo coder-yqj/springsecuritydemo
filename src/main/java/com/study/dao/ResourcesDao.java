@@ -10,5 +10,7 @@ public interface ResourcesDao extends BaseDao{
 	public List<RResources> resourcesListWithRole(Integer rid);
 	
 	public List<Resources> findAllResourcesWithRoles();
-
+	
+	public List<Resources> loadMenu(String username);
+	
 }

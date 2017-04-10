@@ -68,6 +68,9 @@ public class UserController {
 	
 	@RequestMapping("/addUser.do")
 	public String addUser(User user){
+		User u = userService.queryByName(user.getUsername());
+		if(u != null)
+			return "error";
 		try {
 			userService.addUser(user);
 			return "success";

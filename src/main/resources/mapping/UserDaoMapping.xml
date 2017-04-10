@@ -47,4 +47,10 @@
 	<delete id="deleteEntity" parameterType="int">
 		DELETE FROM t_user WHERE id = #{id}
 	</delete>
+	
+	<select id="queryByName" parameterType="string" resultType="com.study.model.User">
+		SELECT id,username,enable
+		FROM t_user
+		WHERE username = #{username}
+	</select>
 </mapper> 

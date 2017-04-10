@@ -23,4 +23,6 @@ public interface UserService {
 	public void addUser(User user);
 	
 	public void delUser(Integer id);
+	
+	public User queryByName(String username);
 }

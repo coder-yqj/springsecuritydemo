@@ -55,5 +55,10 @@ public class UserServiceImpl implements UserService{
 	public void delUser(Integer id) {
 		userDao.deleteEntity(id);
 	}
+
+	@Override
+	public User queryByName(String username) {
+		return userDao.queryByName(username);
+	}
 	
 }

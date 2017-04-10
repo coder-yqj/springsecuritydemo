@@ -41,5 +41,10 @@ public class ResourcesServiceImpl implements ResourcesService{
 	public void delResources(Integer id) {
 		resourcesDao.deleteEntity(id);
 	}
+
+	@Override
+	public List<Resources> loadMenu(String username) {
+		return resourcesDao.loadMenu(username);
+	}
 	
 }

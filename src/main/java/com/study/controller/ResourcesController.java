@@ -5,17 +5,18 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
 import com.study.model.RResources;
 import com.study.model.Resources;
-import com.study.model.Role;
 import com.study.service.ResourcesService;
 
 @Controller
@@ -25,6 +26,7 @@ public class ResourcesController {
 	
 	@Resource
 	private ResourcesService resourcesService;
+	
 	
 	/**
 	 * 查询资源列表，并且返回指定角色是否拥有该资源的权限
@@ -72,6 +74,15 @@ public class ResourcesController {
 			e.printStackTrace();
 			return "fail";
 		}
+	}
+
+	@RequestMapping("/loadMenu.do")
+	public List<Resources> loadMenu(HttpServletRequest request){
+		SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
+				.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		String name = securityContextImpl.getAuthentication().getName();
+		List<Resources> menu = resourcesService.loadMenu(name);
+		return menu;
 	}
 	
 }

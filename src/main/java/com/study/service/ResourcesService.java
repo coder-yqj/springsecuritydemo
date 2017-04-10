@@ -16,4 +16,6 @@ public interface ResourcesService {
 	public void addResources(Resources resources);
 	
 	public void delResources(Integer id);
+	
+	public List<Resources> loadMenu(String username);
 }

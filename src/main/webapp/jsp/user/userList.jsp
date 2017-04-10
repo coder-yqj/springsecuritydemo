@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@include file="../common/common.jsp"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>  
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -70,7 +71,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        </select>  
 			        </div>
 			        <button type="button" id="btn_search" onclick="search();" class="btn btn-primary">查询</button>
-			          <button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 5;">新增</button>
+			        <sec:authorize url="/user/addUser.do">
+			          <button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
+			        </sec:authorize>
 				</form>
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>
@@ -159,7 +162,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  <div id="footer" class="span12"> 2017 &copy; yqj <a href="http://themedesigner.in/">Themedesigner.in</a> </div>
 	</div>
 	<!--end-Footer-part-->
-	<script src="${ss }/js/jquery-1.11.2.min.js"></script> 
+	
 	<script src="${ss }/js/bootstrap.min.js"></script> 
 <%--	<script src="${ss }/js/jquery.uniform.js"></script> --%>
 <%--	<script src="${ss }/js/select2.min.js"></script> --%>
@@ -342,6 +345,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    	if(data=="success"){
 					layer.msg('保存成功');
 					table.ajax.reload();
+					 $('#addUser').modal('hide');
+				}else if(data="error"){
+					layer.msg('该用户已存在');
 					 $('#addUser').modal('hide');
 				}else{
 					layer.msg('保存失败');
