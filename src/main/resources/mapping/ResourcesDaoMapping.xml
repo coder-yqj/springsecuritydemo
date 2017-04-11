@@ -40,13 +40,19 @@
 		DELETE FROM t_resources WHERE id = #{id}
 	</delete>
 	
-	<select id="loadMenu" parameterType="hashMap" resultType="com.study.model.Resources">
-		SELECT re.id,re.name,re.parentId,re.resUrl 
+	<select id="loadMenu" parameterType="com.study.model.Resources" resultType="com.study.model.Resources">
+		SELECT re.id,re.name,re.parentId,re.resUrl,u.username   
 		FROM t_resources re,t_role_resources rr,t_user_role ur,t_user u
 		WHERE re.id = rr.resourcesId AND rr.roleId = ur.roleId
-		AND ur.userId =u.id AND u.username=#{username}
+		AND ur.userId =u.id 
+		<if test="username != null and username != ''">
+			AND u.username=#{username}
+		</if>
 		<if test="type != null">
 			AND re.type= #{type} 
+		</if>
+		<if test="resUrl != null and resUrl != ''">
+			AND re.resUrl= #{resUrl}
 		</if>
 		GROUP BY id
 		ORDER BY re.sort ASC

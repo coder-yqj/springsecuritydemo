@@ -37,22 +37,29 @@ public class AuthorizeTag extends BodyTagSupport {
 
 	@Override  
     public int doStartTag() {  
-		
-		
-		System.out.println("=============================================="+buttonUrl);
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();  
 		SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
 				.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
+		//获取当前登录名
 		String name = securityContextImpl.getAuthentication().getName();
-		System.out.println("+++++++++++++++++++++++++++++++"+name);
-		ResourcesService resourcesService= (ResourcesService) SpringWiredBean.getInstance().getBeanById("resourcesService");
-		List<Resources> resourcesList = resourcesService.loadMenu(name,null);
-		System.out.println(resourcesList+"=-=-=-=");
 		
-        // 如果URL不空就显示URL，否则就不显  
-        if (null != buttonUrl && !"".equals(buttonUrl)) {  
-            return EVAL_BODY_INCLUDE;  
-        }  
-        return this.SKIP_BODY;  
+		//如果数据库里有该链接，并且该用户的权限拥有该链接，则显示 。如果数据库没有该链接则不显示
+		ResourcesService resourcesService= (ResourcesService) SpringWiredBean.getInstance().getBeanById("resourcesService");
+		List<Resources> queryAll = resourcesService.queryAll();
+		boolean flag = true;
+		for (Resources resources : queryAll) {
+			if(resources.getResUrl().equals(buttonUrl))
+				flag = false;
+		}
+        if(flag) //数据库中没有该链接，直接显示
+        	return EVAL_BODY_INCLUDE;
+        else{
+        	Resources resources = new Resources();
+        	resources.setUsername(name);
+        	resources.setResUrl(buttonUrl);
+        	List<Resources> resourcesList = resourcesService.loadMenu(resources);
+        	if(resourcesList.size()>0)	return EVAL_BODY_INCLUDE;//数据库中有该链接，并且该用户拥有该角色，显示
+        }
+		return this.SKIP_BODY;  //不显示
     }  
 }

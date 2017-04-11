@@ -17,5 +17,7 @@ public interface ResourcesService {
 	
 	public void delResources(Integer id);
 	
-	public List<Resources> loadMenu(String username,Integer type);
+	public List<Resources> loadMenu(Resources resources);
+
+	public List<Resources>queryAll();
 }

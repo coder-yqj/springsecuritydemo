@@ -44,11 +44,13 @@ public class ResourcesServiceImpl implements ResourcesService{
 	}
 
 	@Override
-	public List<Resources> loadMenu(String username,Integer type) {
-		Map<String,Object> map = new HashMap<>();
-		map.put("username", username);
-		map.put("type", type);
-		return resourcesDao.loadMenu(map);
+	public List<Resources> loadMenu(Resources resources) {
+		return resourcesDao.loadMenu(resources);
+	}
+
+	@Override
+	public List<Resources> queryAll() {
+		return resourcesDao.queryAll(new Resources());
 	}
 	
 }

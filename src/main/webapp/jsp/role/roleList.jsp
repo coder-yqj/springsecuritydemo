@@ -162,8 +162,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			columnDefs:[{
                 targets: 3,
                 render: function (data, type, row, meta) {
-                    return '<p><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delById(' + row.id + ') >删除</a> '+
-                    '<a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotResources(' + row.id + ') >分配权限</a></p>';
+                    return '<p><security:authorize buttonUrl='/role/delRole.do'><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delById(' + row.id + ') >删除</a></security:authorize> '+
+                    '<security:authorize buttonUrl='/role/saveRoleResources.do'><a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotResources(' + row.id + ') >分配权限</a></security:authorize></p>';
                 }
             },
                 { "orderable": false, "targets": 0 },
@@ -286,25 +286,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	
 	function delById(id) {
-		$.ajax({
-			cache: true,
-			type: "POST",
-			url:'${ss}/role/delRole.do',
-			data:{id:id},
-			async: false,
-			dataType:"json",
-			beforeSend: function(xhr){  
-                xhr.setRequestHeader(header, token);  
-            },
-		    success: function(data) {
-		    	if(data=="success"){
-					layer.msg('删除成功');
-					table.ajax.reload();
-				}else{
-					layer.msg('删除失败');
-				}
-		    }
-		});
+		layer.confirm('您确定要删除该角色吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){
+				$.ajax({
+					cache: true,
+					type: "POST",
+					url:'${ss}/role/delRole.do',
+					data:{id:id},
+					async: false,
+					dataType:"json",
+					beforeSend: function(xhr){  
+		                xhr.setRequestHeader(header, token);  
+		            },
+				    success: function(data) {
+				    	if(data=="success"){
+							layer.msg('删除成功');
+							table.ajax.reload();
+						}else{
+							layer.msg('删除失败');
+						}
+				    }
+				});
+			});
+		
+		
 	}
 	</script>
 

@@ -13,6 +13,6 @@ public interface ResourcesDao extends BaseDao{
 	
 	public List<Resources> findAllResourcesWithRoles();
 	
-	public List<Resources> loadMenu(Map<String, Object> map);
+	public List<Resources> loadMenu(Resources resources);
 	
 }

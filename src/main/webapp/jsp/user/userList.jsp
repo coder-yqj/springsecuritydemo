@@ -1,5 +1,4 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
-<%@ taglib uri="http://www.springsecurity.org/jsp" prefix="security"%>    
 <%@include file="../common/common.jsp"%>
 <%
 String path = request.getContextPath();
@@ -221,8 +220,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			columnDefs:[{
                 targets: 3,
                 render: function (data, type, row, meta) {
-                    return '<p><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delByID(' + row.id + ') >删除</a> '+
-                    '<a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotRole(' + row.id + ') >分配角色</a></p>';
+                    return '<security:authorize buttonUrl='/user/delUser.do'><p><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delByID(' + row.id + ') >删除</a></security:authorize> '+
+                    '<security:authorize buttonUrl='/user/saveUserRoles.do'><a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotRole(' + row.id + ') >分配角色</a></p></security:authorize>';
                 }
             },
                 { "orderable": false, "targets": 0 },
@@ -358,25 +357,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function delByID(id) {
-		$.ajax({
-			cache: true,
-			type: "POST",
-			url:'${ss}/user/delUser.do',
-			data:{id:id},
-			async: false,
-			dataType:"json",
-			beforeSend: function(xhr){  
-                xhr.setRequestHeader(header, token);  
-            },
-		    success: function(data) {
-		    	if(data=="success"){
-					layer.msg('删除成功');
-					table.ajax.reload();
-				}else{
-					layer.msg('删除失败');
-				}
-		    }
-		});
+		layer.confirm('您确定要删除该用户吗？', {
+			  btn: ['确认','取消'] //按钮
+			}, function(){
+				$.ajax({
+					cache: true,
+					type: "POST",
+					url:'${ss}/user/delUser.do',
+					data:{id:id},
+					async: false,
+					dataType:"json",
+					beforeSend: function(xhr){  
+		                xhr.setRequestHeader(header, token);  
+		            },
+				    success: function(data) {
+				    	if(data=="success"){
+							layer.msg('删除成功');
+							table.ajax.reload();
+						}else{
+							layer.msg('删除失败');
+						}
+				    }
+				});
+			});
+		
+		
+		
 	}
 	
 	</script>
