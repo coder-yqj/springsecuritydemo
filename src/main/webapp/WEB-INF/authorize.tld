@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>    
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"    
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"    
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee     
+        http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"    
+        version="2.1">    
+        <description>    
+        <![CDATA[security Tags]]>    
+        </description>    
+        <tlib-version>1.0</tlib-version>    
+        <short-name>security</short-name>    
+        <uri>http://www.springsecurity.org/jsp</uri>    
+        <tag>    
+            <description>    
+            <![CDATA[authorize Tag]]>    
+            </description>    
+            <name>authorize</name>    
+            <tag-class>    
+                com.study.tag.AuthorizeTag
+            </tag-class>    
+            <body-content>JSP</body-content>    
+            <attribute>    
+                <name>buttonUrl</name>    
+                <required>false</required>    
+                <rtexprvalue>true</rtexprvalue>    
+                <type>java.lang.String</type>    
+            </attribute>    
+        </tag>    
+    </taglib>    

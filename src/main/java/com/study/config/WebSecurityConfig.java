@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.study.security.MyFilterSecurityInterceptor;
 
@@ -36,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web)throws Exception {
 		// 设置不拦截规则
-		//web.ignoring().antMatchers("/css/**","/js/**","/img/**","/font-awesome/**");
+		 web.ignoring().antMatchers("/css/**","/js/**","/img/**","/font-awesome/**");  
 	}
 	
 	@Override
@@ -49,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		  http
 	        .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)//在正确的位置添加我们自定义的过滤器  
 	        .authorizeRequests()
-	        .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
+//	        .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
 	        .anyRequest().authenticated()
 //	       .and().formLogin().and()
 //	        .httpBasic();
@@ -59,11 +60,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.failureUrl("/jsp/login.jsp?error=1")
 			.loginProcessingUrl("/spring_security_check")
 			.usernameParameter("username")
-			.passwordParameter("password").permitAll().defaultSuccessUrl("/index.do")
-		// 自定义注销
-			.and()
-			.logout().logoutSuccessUrl("/jsp/login.jsp?logout")
-					.invalidateHttpSession(true);
+			.passwordParameter("password").permitAll().defaultSuccessUrl("/index.do");
+		  
+		  //如果开启了CSRF 退出则需要使用POST访问，可以使用一下方式解决，但并不推荐
+		  http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  
+//        登陆成功后跳转的地址，以及删除的cookie名称  
+          .logoutSuccessUrl("/jsp/login.jsp?error=logout")  
+         .invalidateHttpSession(true);  
 	}
 	
 		

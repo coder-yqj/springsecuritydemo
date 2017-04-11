@@ -81,7 +81,7 @@ public class ResourcesController {
 		SecurityContextImpl securityContextImpl = (SecurityContextImpl) request
 				.getSession().getAttribute("SPRING_SECURITY_CONTEXT");
 		String name = securityContextImpl.getAuthentication().getName();
-		List<Resources> menu = resourcesService.loadMenu(name);
+		List<Resources> menu = resourcesService.loadMenu(name,1);
 		return menu;
 	}
 	

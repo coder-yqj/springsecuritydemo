@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://www.springsecurity.org/jsp" prefix="security"%>    
 <%@include file="../common/common.jsp"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>  
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" href="${ss }/css/bootstrap.min.css" />
  <link rel="stylesheet" href="${ss }/css/jquery.dataTables.min.css" /> 
 <%--<link rel="stylesheet" href="${ss }/css/select2.css" />--%>
-
+	
 <link rel="stylesheet" href="${ss }/css/matrix-style.css" />
 <link rel="stylesheet" href="${ss }/css/matrix-media.css" />
 <link href="${ss }/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -71,9 +71,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			        </select>  
 			        </div>
 			        <button type="button" id="btn_search" onclick="search();" class="btn btn-primary">查询</button>
-			        <sec:authorize url="/user/addUser.do">
-			          <button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
-			        </sec:authorize>
+		          	<security:authorize buttonUrl="/user/addUser.do">
+			          	<button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
+		          	</security:authorize>
 				</form>
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>

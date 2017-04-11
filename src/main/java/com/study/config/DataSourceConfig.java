@@ -25,7 +25,7 @@ import com.github.pagehelper.PageHelper;
 @PropertySource({"classpath:jdbc.properties"})
 //加上这个注解，使得支持事务
 @EnableTransactionManagement
-public class DataSourceConfig implements TransactionManagementConfigurer {
+public class DataSourceConfig {
 	private static final Logger logger = Logger.getLogger(DataSourceConfig.class);
 	/*
 	 * 绑定资源属性
@@ -99,10 +99,10 @@ public class DataSourceConfig implements TransactionManagementConfigurer {
     }
 
 
-	@Override
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		 return new DataSourceTransactionManager(dataSource());
-	}  
+    @Bean  
+    public DataSourceTransactionManager txManager() {  
+        return new DataSourceTransactionManager(dataSource());  
+    }  
 
 }
 

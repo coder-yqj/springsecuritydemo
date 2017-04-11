@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!--top-Header-menu-->
 	<div id="user-nav" class="navbar navbar-inverse">
 	  <ul class="nav">
@@ -8,7 +9,7 @@
 	        <li class="divider"></li>
 	        <li><a href="#"><i class="icon-check"></i> My Tasks</a></li>
 	        <li class="divider"></li>
-	        <li><a href="${ss }/logout"><i class="icon-key"></i> Log Out</a></li>
+	        <li><a href="${ss}/logout.do"><i class="icon-key"></i> Log Out</a></li>
 	      </ul>
 	    </li>
 	    <li class="dropdown" id="menu-messages"><a href="#" data-toggle="dropdown" data-target="#menu-messages" class="dropdown-toggle"><i class="icon icon-envelope"></i> <span class="text">Messages</span> <span class="label label-important">5</span> <b class="caret"></b></a>
@@ -23,7 +24,7 @@
 	      </ul>
 	    </li>
 	    <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">Settings</span></a></li>
-	    <li class=""><a title="" href="${ss }/logout"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
+	    <li class=""><a href="<c:url value="/logout" />"><i class="icon icon-share-alt"></i> <span class="text">Logout</span></a></li>
 	  </ul>
 	</div>
 	<!--start-top-serch-->

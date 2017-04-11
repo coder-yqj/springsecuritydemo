@@ -1,6 +1,8 @@
 package com.study.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,9 +13,8 @@ import com.github.pagehelper.PageInfo;
 import com.study.dao.ResourcesDao;
 import com.study.model.RResources;
 import com.study.model.Resources;
-import com.study.model.Role;
 import com.study.service.ResourcesService;
-@Service
+@Service("resourcesService")
 public class ResourcesServiceImpl implements ResourcesService{
 	
 	@Resource
@@ -43,8 +44,11 @@ public class ResourcesServiceImpl implements ResourcesService{
 	}
 
 	@Override
-	public List<Resources> loadMenu(String username) {
-		return resourcesDao.loadMenu(username);
+	public List<Resources> loadMenu(String username,Integer type) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("username", username);
+		map.put("type", type);
+		return resourcesDao.loadMenu(map);
 	}
 	
 }

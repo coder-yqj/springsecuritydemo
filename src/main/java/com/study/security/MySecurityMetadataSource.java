@@ -53,23 +53,13 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
 			List<Resources> list = resourcesDao.findAllResourcesWithRoles();
 			for (Resources resources : list) {
 				Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
+				// 通过资源名称来表示具体的权限 注意：必须"ROLE_"开头
 				for (Role role : resources.getRoles()) {
 					ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + role.getRoleKey());
 					configAttributes.add(configAttribute);
 				}
 				resourceMap.put(resources.getResUrl(), configAttributes);
 			}
-			/*OaMenu obj = new OaMenu();
-			List<OaMenu> resources = this.menuDao.queryAll(obj);
-			for (OaMenu resource : resources) {
-				Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
-				// TODO:ZZQ 通过资源名称来表示具体的权限 注意：必须"ROLE_"开头
-				// 关联代码：applicationContext-security.xml
-				// 关联代码：com.aioa.security.MyUserDetailServiceImpl#obtionGrantedAuthorities
-				ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + resource.getResKey());
-				configAttributes.add(configAttribute);
-				resourceMap.put(resource.getUrl(), configAttributes);
-			}*/
 		}
 	}
 	//返回所请求资源所需要的权限
