@@ -14,11 +14,9 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import com.study.dao.ResourcesDao;
 import com.study.model.Resources;
-import com.study.model.Role;
 
 /**
  * 加载资源与权限的对应关系
@@ -50,14 +48,13 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
 	private void loadResourceDefine() {
 		if (resourceMap == null) {
 			resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
-			List<Resources> list = resourcesDao.findAllResourcesWithRoles();
+			List<Resources> list = resourcesDao.queryAll(new Resources());
+			//List<Resources> list = resourcesDao.findAllResourcesWithRoles();
 			for (Resources resources : list) {
 				Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
 				// 通过资源名称来表示具体的权限 注意：必须"ROLE_"开头
-				for (Role role : resources.getRoles()) {
-					ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + role.getRoleKey());
-					configAttributes.add(configAttribute);
-				}
+				ConfigAttribute configAttribute = new SecurityConfig("ROLE_" + resources.getResKey());
+				configAttributes.add(configAttribute);
 				resourceMap.put(resources.getResUrl(), configAttributes);
 			}
 		}

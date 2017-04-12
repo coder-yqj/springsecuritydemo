@@ -7,6 +7,10 @@ package com.study.model;
  */
 public class URole extends Role{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer selected;
 
 	public Integer getSelected() {

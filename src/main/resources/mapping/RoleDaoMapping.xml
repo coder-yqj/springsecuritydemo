@@ -3,19 +3,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.study.dao.RoleDao">  
 
-	<resultMap type="com.study.model.Role" id="roleMapper" autoMapping="true">
-		<id column="id" property="id"/>
-		<collection property="resources" ofType="com.study.model.Resources" autoMapping="true">
-		</collection>
-	</resultMap>
-
-	<select id="findAllRolesWithResources" resultMap="roleMapper">
-		SELECT ro.id,ro.roleKey,ro.roleDesc,re.resUrl FROM t_role ro LEFT JOIN t_role_resources rr
-		ON ro.id = rr.roleId
-		LEFT JOIN t_resources re 
-		ON rr.resourcesId = re.id
-	</select>
-	
 	<select id="queryRoleListWithUser" parameterType="int" resultType="com.study.model.URole">
 		SELECT r.id,r.roleDesc,r.roleKey,
 		(CASE WHEN (SELECT ur.roleId FROM t_user_role ur WHERE ur.userId= #{id} AND ur.roleId = r.id) THEN 1 ELSE 0 END) AS selected 

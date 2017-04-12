@@ -5,7 +5,7 @@ import com.study.model.UserRole;
 
 public interface UserDao extends BaseDao{
 	
-	public User FindUserWithRolesByName(String name);
+	public User findUserByName(String username);
 	
 	public void delRolesByUserId(String userId);
 	

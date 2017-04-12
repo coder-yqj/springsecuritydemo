@@ -6,7 +6,7 @@ import com.study.model.UserRole;
 
 public interface UserService {
 
-	public User FindUserWithRolesByName(String name);
+	public User findUserByName(String name);
 	
 	 /**
      * 根据条件分页查询

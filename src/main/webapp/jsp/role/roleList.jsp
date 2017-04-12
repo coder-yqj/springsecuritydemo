@@ -51,9 +51,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	            <h5>角色列表</h5>
 	          </div>
 	          	<form class="form-inline">
-	          	 <sec:authorize url="${ss}/role/addRole.do">
+	          	 <security:authorize buttonUrl="/role/addRole.do">
 			          <button type="button" id="btn_search" onclick="$('#addRole').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
-				</sec:authorize>
+				</security:authorize>
 				</form>
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>

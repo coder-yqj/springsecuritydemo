@@ -60,6 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	              	<tr>
 	                  <th>ID</th>
 	                  <th>资源名称</th>
+	                  <th>资源key</th>
 	                  <th>父资源</th>
 	                  <th>资源链接</th>
 	                  <th>资源类型</th>
@@ -111,6 +112,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">资源名称:</label>
 				            <input type="text" class="form-control" name="name" id="name" placeholder="请输入资源名称"/>
+				          </div>
+				          <div class="form-group">
+				            <label for="recipient-name" class="control-label">资源key:</label>
+				            <input type="text" class="form-control" name="resKey" id="resKey" placeholder="请输入资源名称"/>
 				          </div>
 				          <div class="form-group">
 				            <label for="recipient-name" class="control-label">父资源ID:</label>
@@ -174,6 +179,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	"columns": [
 		            { "data": "id" },
 		            { "data": "name" },
+		            { "data": "resKey" },
 		            { "data": "parentId" },
 		            { "data": "resUrl" },
 		            { "data": "type" },
@@ -181,7 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            {data: null}
 		        ],
 			columnDefs:[{
-                targets: 6,
+                targets: 7,
                 render: function (data, type, row, meta) {
                     return '<p><security:authorize buttonUrl='/resources/delResources.do'><a type="button" class="btn btn-danger  btn-default" href="javascrip:;" onclick=delById(' + row.id + ') >删除</a></security:authorize>'+
                     '<security:authorize buttonUrl='/role/editResources.do'><a type="button" class="btn btn-success btn-default" href="javascrip:;" onclick=allotResources(' + row.id + ') >修改</a></security:authorize></p>';
@@ -191,6 +197,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 { "orderable": false, "targets": 1 },
                 { "orderable": false, "targets": 2 },
                 { "orderable": false, "targets": 3 },
+                { "orderable": false, "targets": 4 },
                 {	 
                 	"orderable": false,
                     "render": function(data, type, row) {
@@ -202,9 +209,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                         	return "其他";
                         }
                     },
-                    "targets": 4
+                    "targets": 5
                 },
-                { "orderable": false, "targets": 5 }
+                { "orderable": false, "targets": 6 }
             ],
                 
 		    } );
@@ -220,12 +227,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	//添加用户
 	function addResources() {
 		var name = $("#name").val();
+		var resKey= $("#resKey").val();
 		var parentId = $("#parentId").val();
 		var resUrl = $("#resUrl").val();
 		var sort = $("#sort").val();
 		
 		if(name == "" || name == undefined || name == null){
 			return layer.msg('资源名称不能为空', function(){
+				//关闭后的操作
+			});
+		}
+		if(resKey == "" || resKey == undefined || resKey == null){
+			return layer.msg('资源key不能为空', function(){
 				//关闭后的操作
 			});
 		}

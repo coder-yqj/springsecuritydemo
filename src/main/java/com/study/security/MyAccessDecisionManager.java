@@ -1,6 +1,5 @@
 package com.study.security;
 import java.util.Collection;
-
 import java.util.Iterator;
 
 import org.springframework.security.access.AccessDecisionManager;
@@ -10,7 +9,6 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 /**
  * <!-- 用户是否拥有所请求资源的权限 -->
  * 

@@ -5,7 +5,6 @@ import java.util.List;
 import com.github.pagehelper.PageInfo;
 import com.study.model.RResources;
 import com.study.model.Resources;
-import com.study.model.Role;
 
 public interface ResourcesService {
 	

@@ -1,8 +1,6 @@
 package com.study.tag;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -11,7 +9,6 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.study.dao.ResourcesDao;
 import com.study.model.Resources;
 import com.study.service.ResourcesService;
 import com.study.util.SpringWiredBean;
@@ -35,6 +32,7 @@ public class AuthorizeTag extends BodyTagSupport {
 	}
 
 
+	@SuppressWarnings("static-access")
 	@Override  
     public int doStartTag() {  
 		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();  

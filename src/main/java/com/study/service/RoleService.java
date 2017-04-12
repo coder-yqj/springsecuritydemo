@@ -6,11 +6,9 @@ import com.github.pagehelper.PageInfo;
 import com.study.model.Role;
 import com.study.model.RoleResources;
 import com.study.model.URole;
-import com.study.model.User;
 
 public interface RoleService {
 
-	public List<Role> findAllRolesWithResources();
 	
 	public PageInfo<Role> selectByPage(Role role, int start, int length);
 

@@ -3,7 +3,7 @@ package com.study.config;
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -42,15 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	/*	http.authorizeRequests()
-		.anyRequest().authenticated()
-		.and()
-		.formLogin().and()
-		.httpBasic();*/
 		  http
 	        .addFilterBefore(myFilterSecurityInterceptor, FilterSecurityInterceptor.class)//在正确的位置添加我们自定义的过滤器  
 	        .authorizeRequests()
-//	        .antMatchers("/css/**","/js/**","/img/**","/font-awesome/**").permitAll()
 	        .anyRequest().authenticated()
 //	       .and().formLogin().and()
 //	        .httpBasic();
@@ -86,7 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.authoritiesByUsernameQuery("select username,rolename from t_role where username=?");
 		*/
 		//配置自定义的用户服务
-		auth.userDetailsService(myUserDetailService);
+		auth.userDetailsService(myUserDetailService).passwordEncoder(new Md5PasswordEncoder());
 		
 	}
 	

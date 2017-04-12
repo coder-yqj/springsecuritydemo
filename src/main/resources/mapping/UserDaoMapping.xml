@@ -3,19 +3,11 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.study.dao.UserDao">  
 
-	<resultMap type="com.study.model.User" id="userMapper" autoMapping="true">
-		<id property="id" column="id" />
-		<collection property="roles" ofType="com.study.model.Role"  autoMapping="true"></collection>
-	</resultMap>
-		
-	<select id="FindUserWithRolesByName" parameterType="string" resultMap="userMapper">
-		SELECT u.id,u.username,u.password,u.enable ,r.roleKey,r.roleDesc
-		FROM t_user u LEFT JOIN t_user_role ur
-		ON u.id= ur.userId
-		LEFT JOIN t_role r
-		ON ur.roleId = r.id
-		WHERE username=#{username}
 	
+	<select id="findUserByName" parameterType="string" resultType="com.study.model.User">
+		SELECT id,username,password,enable 
+		FROM t_user
+		WHERE username=#{username}
 	</select>
 	
 	<select id="queryAll" parameterType="com.study.model.User" resultType="com.study.model.User">
@@ -26,7 +18,7 @@
 		<if test="username != null and username != ''">
 			AND username LIKE '%${username}%'
 		</if>
-		<if test="enable != null and enable != ''">
+		<if test="enable != null">
 			AND enable  = #{enable}
 		</if>
 			ORDER BY id ASC

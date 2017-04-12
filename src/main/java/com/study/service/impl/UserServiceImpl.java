@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +22,8 @@ public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 	
 	@Override
-	public User FindUserWithRolesByName(String name) {
-		return userDao.FindUserWithRolesByName(name);
+	public User findUserByName(String name) {
+		return userDao.findUserByName(name);
 	}
 
 	@Override
@@ -48,6 +49,9 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public void addUser(User user){
+		Md5PasswordEncoder md5=new Md5PasswordEncoder();
+		String encodePassword = md5.encodePassword(user.getPassword(), null);
+		user.setPassword(encodePassword);
 		userDao.addEntity(user);
 	}
 

@@ -15,7 +15,6 @@ import com.study.dao.RoleDao;
 import com.study.model.Role;
 import com.study.model.RoleResources;
 import com.study.model.URole;
-import com.study.model.User;
 import com.study.service.RoleService;
 
 @Service("roleService")
@@ -24,11 +23,6 @@ public class RoleServiceImpl implements RoleService{
 	@Resource
 	private RoleDao roleDao;
 	
-	@Override
-	public List<Role> findAllRolesWithResources() {
-		return roleDao.findAllRolesWithResources();
-	}
-
 	@Override
 	public PageInfo<Role> selectByPage(Role role,int start, int length) {
 		int page = start/length+1;  

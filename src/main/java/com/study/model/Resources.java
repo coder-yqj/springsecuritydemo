@@ -16,6 +16,7 @@ public class Resources implements Serializable {
 	private String name;//资源名称
 	private String parentId;//父资源
 	private String resUrl;//资源链接
+	private String resKey;//资源key
 	private Integer type;//资源类型   1:菜单    2：按钮
 	private Integer sort;//排序
 	
@@ -72,15 +73,20 @@ public class Resources implements Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public String getResKey() {
+		return resKey;
+	}
+	public void setResKey(String resKey) {
+		this.resKey = resKey;
+	}
 	@Override
 	public String toString() {
 		return "Resources [id=" + id + ", name=" + name + ", parentId="
-				+ parentId + ", resUrl=" + resUrl + ", type=" + type
-				+ ", sort=" + sort + ", roles=" + roles + ", username="
-				+ username + "]";
+				+ parentId + ", resUrl=" + resUrl + ", resKey=" + resKey
+				+ ", type=" + type + ", sort=" + sort + ", roles=" + roles
+				+ ", username=" + username + "]";
 	}
 	 
-	
 	
 	
 }
