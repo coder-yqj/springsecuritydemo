@@ -25,4 +25,5 @@ public interface RoleService {
 	
 	public void delRole(Integer id);
 	
+	public void testTransactional();
 }

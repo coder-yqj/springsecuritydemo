@@ -45,4 +45,11 @@
 		FROM t_user
 		WHERE username = #{username}
 	</select>
+	
+	<update id="editEntity" parameterType="com.study.model.User">
+		UPDATE t_user 
+		SET username = #{username},
+		 password = #{password}
+		WHERE id=#{id}
+	</update>
 </mapper> 

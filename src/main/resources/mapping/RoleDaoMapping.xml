@@ -29,4 +29,10 @@
 	<delete id="deleteEntity" parameterType="int">
 		DELETE FROM t_role WHERE id = #{id}
 	</delete>
+	
+	<update id="editEntity" parameterType="com.study.model.Role">
+		UPDATE t_role
+		SET roleDesc = #{roleDesc}
+		WHERE id=#{id}
+	</update>
 </mapper> 
