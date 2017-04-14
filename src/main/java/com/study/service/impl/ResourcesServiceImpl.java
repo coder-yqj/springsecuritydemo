@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -32,20 +34,23 @@ public class ResourcesServiceImpl implements ResourcesService{
 	}
 
 	@Override
+	@CacheEvict(cacheNames="myCache",allEntries=true)
 	public void addResources(Resources resources) {
 		resourcesDao.addEntity(resources);
 	}
-
+	
 	@Override
+	@CacheEvict(cacheNames="myCache",allEntries=true)
 	public void delResources(Integer id) {
 		resourcesDao.deleteEntity(id);
 	}
 
 	@Override
+	@Cacheable(cacheNames="myCache",key="#resources.resUrl + #resources.username+#resources.type")
 	public List<Resources> loadMenu(Resources resources) {
 		return resourcesDao.loadMenu(resources);
 	}
-
+	@Cacheable(cacheNames="myCache")
 	@Override
 	public List<Resources> queryAll() {
 		return resourcesDao.queryAll(new Resources());

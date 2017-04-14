@@ -37,7 +37,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return resolver;
 	}
 	
-	//配置静态资源的处理
+	//配置静态资源的处理  使DispatcherServlet对静态资源的请求转发到Servlet容器默认的Servlet上，而不是使用DispatcherServlet本身来处理此类请求
 	 @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
 		 configurer.enable();

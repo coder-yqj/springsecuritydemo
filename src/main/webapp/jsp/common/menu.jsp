@@ -24,6 +24,18 @@ $.ajax({
     		html+="<li><a href='"+'${ss}'+data[i].resUrl+"'><i class='icon icon-home'></i> <span>"+data[i].name+"</span></a> </li>"
     	}
 		$("#menu").append(html);
+		//改变当前菜单样式
+		$("#menu li a").each(function(){
+		    $this = $(this); 
+		    if($this[0].href==String(window.location)){ 
+		        $this.attr("href","javascript:;");
+		        $this.parent().addClass("active");  
+		    }
+		}); 
     }
 });
+
+
+
+
 </script>

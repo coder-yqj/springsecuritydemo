@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,6 +44,7 @@ public class RoleServiceImpl implements RoleService{
 	}
 
 	@Override
+	@CacheEvict(cacheNames="myCache",allEntries=true)
 	@Transactional(propagation=Propagation.REQUIRED,readOnly=false,rollbackFor={Exception.class})
 	public void saveRoleResources(RoleResources roleResources) {
 		String roleId = roleResources.getRoleId();

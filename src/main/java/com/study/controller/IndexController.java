@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 	
-	@RequestMapping("index.do")
+	@RequestMapping(value={"/index.do",""})
 	public String index(){
 		return "user/userList";
 	}
