@@ -282,7 +282,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	}
 	
 	function delById(id) {
-		layer.confirm('您确定要删除该角色吗？', {
+		layer.confirm('您确定要删除该资源吗？', {
 			  btn: ['确认','取消'] //按钮
 			}, function(){
 				$.ajax({

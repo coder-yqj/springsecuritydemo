@@ -95,15 +95,5 @@ public class RoleController {
 		}
 	}
 	
-	@RequestMapping("/test.do")
-	public String test(){
-		try {
-			roleService.testTransactional();
-			return "success";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "fail";
-		}
-	}
 	
 }
