@@ -2,18 +2,25 @@ package com.study.config;
 
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.mapper.MapperScannerConfigurer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.github.pagehelper.PageHelper;
@@ -23,49 +30,59 @@ import com.github.pagehelper.PageHelper;
 @PropertySource({"classpath:jdbc.properties"})
 //加上这个注解，使得支持事务
 @EnableTransactionManagement
+@MapperScan(basePackages = {"com.study.dao"})
 public class DataSourceConfig {
 	private static final Logger logger = Logger.getLogger(DataSourceConfig.class);
 	/*
 	 * 绑定资源属性
 	 */
 	@Value("${jdbc.driver}")
-	String driverClass;
+	private String driverClass;
 	@Value("${jdbc.url}")
-	String url;
+	private String url;
 	@Value("${jdbc.username}")
-	String userName;
+	private String userName;
 	@Value("${jdbc.password}")
-	String passWord;
-	@Value("${jdbc.maxActive}")
+	private String passWord;
+	@Value("${maxActive}")
     private int maxActive;
-    @Value("${jdbc.maxIdel}")
-    private int maxIdel;
-    @Value("${jdbc.maxWait}")
+    @Value("${maxIdle}")
+    private int maxIdle;
+    @Value("${maxWait}")
     private long maxWait;
     
-    @Bean(name = "dataSource")
+
+    /** 
+     * 必须加上static 
+     */  
+    public static PropertySourcesPlaceholderConfigurer placehodlerConfigurer() {
+		logger.info("PropertySourcesPlaceholderConfigurer");
+        return new PropertySourcesPlaceholderConfigurer();
+    }
+    
+    @Bean(destroyMethod="close")  
 	public BasicDataSource dataSource() {
 		logger.info("DataSource");
 		 BasicDataSource dataSource = new BasicDataSource();
-		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		dataSource.setUrl("jdbc:mysql://localhost:3306/mytest?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&autoReconnect=true&failOverReadOnly=false");
-		dataSource.setUsername("root");
-		dataSource.setPassword("root");
-//		dataSource.setDriverClassName(driverClass);
-//		dataSource.setUrl(url);
-//		dataSource.setUsername(userName);
-//		dataSource.setPassword(passWord);
-//		dataSource.setMaxActive(maxActive);
-//        dataSource.setMaxIdle(maxIdel);
-//        dataSource.setMaxWait(maxWait);
+		dataSource.setDriverClassName(driverClass);
+		dataSource.setUrl(url);
+		dataSource.setUsername(userName);
+		dataSource.setPassword(passWord);
+		dataSource.setMaxActive(maxActive);
+        dataSource.setMaxIdle(maxIdle);
+        dataSource.setMaxWait(maxWait);
 		return dataSource;
 	}
 	
+    @Bean
+    public PlatformTransactionManager txManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
     
-    @Bean  
-    public SqlSessionFactory sqlSessionFactory() throws Exception {  
+   @Bean  
+    public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {  
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();  
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setMapperLocations(resolver.getResources("classpath:mapping/*Mapping.xml"));
         //配置pageHelper 
@@ -73,13 +90,13 @@ public class DataSourceConfig {
         return sessionFactory.getObject();
     }  
     
-    @Bean
+    /*@Bean
     public MapperScannerConfigurer scannerConfigurer(){
     	MapperScannerConfigurer configurer = new MapperScannerConfigurer();
     	configurer.setBasePackage("com.study.dao");
     	configurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
     	return configurer;
-    }
+    }*/
     /**
      * mybatis 分页插件配置
      * @return
@@ -97,10 +114,8 @@ public class DataSourceConfig {
     }
 
 
-    @Bean  
-    public DataSourceTransactionManager txManager() {  
-        return new DataSourceTransactionManager(dataSource());  
-    }  
+  
+  
 
 }
 

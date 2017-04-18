@@ -56,7 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.usernameParameter("username")
 			.passwordParameter("password").permitAll().defaultSuccessUrl("/index.do");
 		  
-		  //如果开启了CSRF 退出则需要使用POST访问，可以使用一下方式解决，但并不推荐
+		  //如果开启了CSRF 退出则需要使用POST访问，可以使用以下方式解决，但并不推荐
 		  http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))  
 //        登陆成功后跳转的地址，以及删除的cookie名称  
           .logoutSuccessUrl("/jsp/login.jsp?error=logout")  

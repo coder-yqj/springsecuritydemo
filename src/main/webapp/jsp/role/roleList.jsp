@@ -55,6 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			          <button type="button" id="btn_search" onclick="$('#addRole').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
 				</security:authorize>
 				</form>
+				<div class="widget-content nopadding">
 	            <table class="table table-bordered data-table" id="datatable" >
 	              <thead>
 	              	<tr>

@@ -13,11 +13,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>用户管理</title>
     
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<%--<link rel="stylesheet" href="${ss }/css/uniform.css" />--%>
 <link rel="stylesheet" href="${ss }/css/bootstrap.min.css" />
  <link rel="stylesheet" href="${ss }/css/jquery.dataTables.min.css" /> 
-<%--<link rel="stylesheet" href="${ss }/css/select2.css" />--%>
-	
 <link rel="stylesheet" href="${ss }/css/matrix-style.css" />
 <link rel="stylesheet" href="${ss }/css/matrix-media.css" />
 <link href="${ss }/font-awesome/css/font-awesome.css" rel="stylesheet" />
@@ -74,7 +71,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			          	<button type="button" id="btn_search" onclick="$('#addUser').modal();" class="btn btn-info" style="float: right; margin-right: 1;">新增</button>
 		          	</security:authorize>
 				</form>
-	            <table class="table table-bordered data-table" id="datatable" >
+				
+				<div class="widget-content nopadding">
+	            <table class="table table-striped table-bordered" cellspacing="0" width="100%" id="datatable" >
 	              <thead>
 	              	<tr>
 	                  <th>ID</th>
@@ -91,6 +90,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            </tr>
 		        </tfoot> -->
 	            </table>
+	            
 	          </div>
 	        </div>
 	      </div>
@@ -163,11 +163,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--end-Footer-part-->
 	
 	<script src="${ss }/js/bootstrap.min.js"></script> 
-<%--	<script src="${ss }/js/jquery.uniform.js"></script> --%>
-<%--	<script src="${ss }/js/select2.min.js"></script> --%>
 	<script src="${ss }/js/jquery.dataTables.min.js"></script> 
 	<script src="${ss }/js/layer.js"></script> 
-<%--	<script src="${ss }/js/matrix.js"></script> --%>
 	<script type="text/javascript">
 	//_csrf参数设置
   	var header = $("meta[name='_csrf_header']").attr("content");  
