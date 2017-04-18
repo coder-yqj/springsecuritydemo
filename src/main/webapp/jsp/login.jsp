@@ -21,7 +21,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
     <body>
-        <div id="loginbox">   ${SPRING_SECURITY_LAST_EXCEPTION.message}
+        <div id="loginbox">  
+        	<c:if test="${param.error=='1' }">帐号或密码错误
+	         <c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION }">  
+	                <c:out value="${SPRING_SECURITY_LAST_EXCEPTION.message}"/>  
+	           </c:if>  
+        	</c:if>
             <form id="loginform" class="form-vertical" action="${ss }/spring_security_check" method="post">
 <%--				<input type="hidden" name="_csrf" value="">--%>
 				  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />  
