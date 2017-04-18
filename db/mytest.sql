@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50022
 File Encoding         : 65001
 
-Date: 2017-04-18 19:19:54
+Date: 2017-04-18 21:46:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,8 +21,8 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `t_resources`;
 CREATE TABLE `t_resources` (
   `id` int(11) NOT NULL auto_increment,
-  `name` varchar(255) default NULL,
-  `resUrl` varchar(255) default NULL,
+  `name` varchar(30) default NULL,
+  `resUrl` varchar(100) default NULL,
   `type` int(11) default NULL,
   `parentId` int(11) default NULL,
   `sort` int(11) default NULL,
@@ -64,7 +64,6 @@ INSERT INTO `t_role` VALUES ('1', 'ADMIN', '管理员');
 INSERT INTO `t_role` VALUES ('2', 'MEMBER', '普通用户');
 INSERT INTO `t_role` VALUES ('3', 'SUPER', '超级管理员');
 INSERT INTO `t_role` VALUES ('4', 'ROLE1', '角色1');
-INSERT INTO `t_role` VALUES ('5', 'ROLE2', '角色2');
 
 -- ----------------------------
 -- Table structure for `t_role_resources`

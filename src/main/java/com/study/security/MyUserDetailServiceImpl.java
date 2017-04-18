@@ -29,9 +29,7 @@ public class MyUserDetailServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
-		System.out.println("用户username:"+username);
 		User user = userService.findUserByName(username);
-		System.out.println("user:"+user);
 		if(user ==null)
             throw new UsernameNotFoundException(username+" not exist!");  
 		Set<GrantedAuthority> authSet = new HashSet<GrantedAuthority>();

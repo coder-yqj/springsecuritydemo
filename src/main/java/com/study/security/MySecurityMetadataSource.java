@@ -49,7 +49,6 @@ public class MySecurityMetadataSource implements FilterInvocationSecurityMetadat
 		if (resourceMap == null) {
 			resourceMap = new HashMap<String, Collection<ConfigAttribute>>();
 			List<Resources> list = resourcesDao.queryAll(new Resources());
-			//List<Resources> list = resourcesDao.findAllResourcesWithRoles();
 			for (Resources resources : list) {
 				Collection<ConfigAttribute> configAttributes = new ArrayList<ConfigAttribute>();
 				// 通过资源名称来表示具体的权限 注意：必须"ROLE_"开头
